@@ -23,6 +23,8 @@
 > - az űrlény akit meg kell ölni
 > - a két portál a pálya szélén
 > - a coinok
+> - a pálya szintje
+> - a gyűjtött coinok száma
 
 ![Terv.png](https://github.com/tomposgergo2/Alien-Blast-The-Cosmic-War/blob/main/Terv.png?raw=true)
 
