@@ -17,3 +17,4 @@
 >
 > Minden egyes legyőzött űrlény után coinokat gyűjthetsz, amelyek segítenek fejleszteni a karaktered, hogy könnyebben megbirkózz a későbbi pályák kihívásaival. Ha nekimegy az űrlénynek vagy leesel a mélybe, akkor el kell kezdened az adott szintet újra.
 
+![Alt text](images/example.png)
