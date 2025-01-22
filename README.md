@@ -17,4 +17,16 @@
 >
 > Minden egyes legyőzött űrlény után coinokat gyűjthetsz, amelyek segítenek fejleszteni a karaktered, hogy könnyebben megbirkózz a későbbi pályák kihívásaival. Ha nekimegy az űrlénynek vagy leesel a mélybe, akkor el kell kezdened az adott szintet újra.
 
+## Játék kinézete a tervek szerint
+> Látható:
+> - a főhős az úrhajós
+> - az űrlény akit meg kell ölni
+> - a két portál a pálya szélén
+> - a coinok
+
 ![Terv.png](https://github.com/tomposgergo2/Alien-Blast-The-Cosmic-War/blob/main/Terv.png?raw=true)
+
+## Készítők:
+> - Tófalvi Zalán
+> - Szemethy Levente
+> - Tompos Gergő
