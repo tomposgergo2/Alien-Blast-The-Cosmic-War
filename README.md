@@ -18,7 +18,7 @@
 > Minden egyes legyőzött űrlény után coinokat gyűjthetsz, amelyek segítenek fejleszteni a karaktered, hogy könnyebben megbirkózz a későbbi pályák kihívásaival. Ha nekimegy az űrlénynek vagy leesel a mélybe, akkor el kell kezdened az adott szintet újra.
 
 ## Játék kinézete a tervek szerint
-> Látható:
+> ### Látható:
 > - a főhős az úrhajós
 > - az űrlény akit meg kell ölni
 > - a két portál a pálya szélén
