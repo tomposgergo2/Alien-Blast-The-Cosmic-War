@@ -30,6 +30,7 @@ namespace AlienBlast
             {
                 timer.Stop();
                 //enemy movement
+                player.Gravity();
                 MovePlayer(sender, e);
                 timer.Start();
             };

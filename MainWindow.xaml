@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" WindowStyle="none" Height="1080px" Width="1920px">
     <Canvas Name="canvas">
-        <Rectangle Name="Platform" Width="96px" Height="96px" Fill="red"/>
+        <Rectangle Name="Platform" Width="96px" Height="96px" Fill="red" Canvas.Left="100" Canvas.Top="900"/>
         
     </Canvas>
 </Window>

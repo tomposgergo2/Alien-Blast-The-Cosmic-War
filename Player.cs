@@ -16,6 +16,13 @@ namespace AlienBlast
         public double X { get; set; }
         public double Y { get; set; }
         public double Velocity { get; set; }
+        public double G 
+        {
+            get
+            {
+                return 10;
+            }
+        }
         public string img { get; set; }
         public Canvas canvas { get; set; }
         public System.Windows.Shapes.Rectangle player { get; set; }
@@ -43,16 +50,22 @@ namespace AlienBlast
 
             return player;
         }
+        public void Gravity()
+        {
+            Canvas.SetTop(player, Y + G);
+            Y = Canvas.GetTop(player);
+        }
 
         public void MoveLeft()
         {
-            X = Canvas.GetLeft(player);
             Canvas.SetLeft(player, X - Velocity);
+            X = Canvas.GetLeft(player);
         }
         public void MoveRight()
         {
-            X = Canvas.GetLeft(player);
             Canvas.SetLeft(player, X + Velocity);
+            X = Canvas.GetLeft(player);
         }
+
     }
 }
