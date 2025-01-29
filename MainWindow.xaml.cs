@@ -41,40 +41,6 @@ namespace AlienBlast
                 player = new Player(100, 100, canvas);
             };
 
-            //KeyDown += (sender, e) =>
-            //{
-            //    if (player != null)
-            //    {
-            //        switch (e.Key)
-            //        {
-            //            case Key.W:
-            //                break;
-            //            case Key.S:
-            //                break;
-            //            case Key.A:
-            //                player.MoveLeft();
-            //                break;
-            //            case Key.D:
-            //                player.MoveRight();
-            //                break;
-
-            //            case Key.Up:
-            //                break;
-            //            case Key.Down:
-            //                break;
-            //            case Key.Left:
-            //                player.MoveLeft();
-            //                break;
-            //            case Key.Right:
-            //                player.MoveRight();
-            //                break;
-
-            //            default:
-            //                break;
-            //        }
-            //    }
-            //};
-
             void MovePlayer(object sender, EventArgs e)
             {
                 if (Keyboard.IsKeyDown(Key.Left) || Keyboard.IsKeyDown(Key.A))
