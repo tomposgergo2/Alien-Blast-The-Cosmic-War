@@ -13,20 +13,23 @@ namespace AlienBlast
 {
     class Player
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Velocity { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Velocity { get; set; }
         public string img { get; set; }
         public Canvas canvas { get; set; }
+        public System.Windows.Shapes.Rectangle player { get; set; }
 
-        public Player(int x, int y, Canvas canvas,int v = 1)
+        public Player(double x, double y, Canvas canvas, double v = 10)
         {
             X = x;
             Y = y;
             Velocity = v;
+            this.canvas = canvas;
+            player = DrawPlayer(X, Y, img);
         }
 
-        private void DrawPlayer(int x, int y, string img)
+        private System.Windows.Shapes.Rectangle DrawPlayer(double x, double y, string img)
         {  
             var player = new System.Windows.Shapes.Rectangle
             {
@@ -34,16 +37,22 @@ namespace AlienBlast
                 Height = 96,
                 Fill = Brushes.Blue
             };
-            
+            Canvas.SetLeft(player, X);
+            Canvas.SetTop(player, Y);
+            canvas.Children.Add(player);
+
+            return player;
         }
 
         public void MoveLeft()
         {
-            X--;
+            X = Canvas.GetLeft(player);
+            Canvas.SetLeft(player, X - Velocity);
         }
         public void MoveRight()
         {
-            X++;
+            X = Canvas.GetLeft(player);
+            Canvas.SetLeft(player, X + Velocity);
         }
     }
 }

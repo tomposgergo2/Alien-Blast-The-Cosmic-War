@@ -9,6 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pálya.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pálya.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Pálya.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

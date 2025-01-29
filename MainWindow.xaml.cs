@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,6 +20,7 @@ namespace AlienBlast
     public partial class MainWindow : Window
     {
         DispatcherTimer timer = new DispatcherTimer();
+        Player player;
         public MainWindow()
         {
             InitializeComponent();
@@ -26,8 +29,8 @@ namespace AlienBlast
             timer.Tick += (sender, e) =>
             {
                 timer.Stop();
-                //player movement
                 //enemy movement
+                MovePlayer(sender, e);
                 timer.Start();
             };
             timer.Start();
@@ -35,8 +38,54 @@ namespace AlienBlast
             Loaded += (sender, e) =>
             {
                 //map generálás
-                Player player = new Player(0, 100, canvas);
+                player = new Player(100, 100, canvas);
             };
+
+            //KeyDown += (sender, e) =>
+            //{
+            //    if (player != null)
+            //    {
+            //        switch (e.Key)
+            //        {
+            //            case Key.W:
+            //                break;
+            //            case Key.S:
+            //                break;
+            //            case Key.A:
+            //                player.MoveLeft();
+            //                break;
+            //            case Key.D:
+            //                player.MoveRight();
+            //                break;
+
+            //            case Key.Up:
+            //                break;
+            //            case Key.Down:
+            //                break;
+            //            case Key.Left:
+            //                player.MoveLeft();
+            //                break;
+            //            case Key.Right:
+            //                player.MoveRight();
+            //                break;
+
+            //            default:
+            //                break;
+            //        }
+            //    }
+            //};
+
+            void MovePlayer(object sender, EventArgs e)
+            {
+                if (Keyboard.IsKeyDown(Key.Left) || Keyboard.IsKeyDown(Key.A))
+                {
+                    player.MoveLeft();
+                }
+                if (Keyboard.IsKeyDown(Key.Right) || Keyboard.IsKeyDown(Key.D))
+                {
+                    player.MoveRight();
+                }
+            }
         }
 
 
