@@ -35,6 +35,7 @@ namespace AlienBlast
             Loaded += (sender, e) =>
             {
                 //map generálás
+                Player player = new Player(0, 100, canvas);
             };
         }
     }
