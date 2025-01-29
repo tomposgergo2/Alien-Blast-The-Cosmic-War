@@ -38,5 +38,7 @@ namespace AlienBlast
                 Player player = new Player(0, 100, canvas);
             };
         }
+
+
     }
 }
