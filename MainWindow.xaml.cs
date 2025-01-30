@@ -25,6 +25,8 @@ namespace AlienBlast
         {
             InitializeComponent();
 
+            
+
             timer.Interval = TimeSpan.FromMilliseconds(1);
             timer.Tick += (sender, e) =>
             {
