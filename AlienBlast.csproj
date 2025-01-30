@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pálya.cs" />
+    <None Include="Pálya.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

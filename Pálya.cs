@@ -7,10 +7,21 @@ using System.Threading.Tasks;
 
 namespace AlienBlast
 {
-    public List<string[]> Pályák { get; private set; }
 
     class Pálya
     {
+        public List<string[]> Pályák { get; private set; }
+
+        public Pálya()
+        {
+            Pályák = new List<string[]>();
+            Beolvasás();
+        }
+
+
+
+
+
         string[] sorok = File.ReadAllLines("Pálya.txt");
     }
 }
