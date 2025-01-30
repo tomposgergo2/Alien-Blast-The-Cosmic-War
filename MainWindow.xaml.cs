@@ -25,7 +25,7 @@ namespace AlienBlast
         {
             InitializeComponent();
 
-            
+            Pálya pálya = new Pálya();
 
             timer.Interval = TimeSpan.FromMilliseconds(1);
             timer.Tick += (sender, e) =>

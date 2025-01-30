@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace AlienBlast
 {
-
-    class Pálya
+    internal class Pálya
     {
         public List<string[]> Pályák { get; private set; }
 
@@ -18,10 +17,34 @@ namespace AlienBlast
             Beolvasás();
         }
 
+        private void Beolvasás()
+        {
+            string[] sorok = File.ReadAllLines("Pálya.txt");
 
 
 
+            List<string> pálya = new List<string>();
+            foreach (var sor in sorok)
+            {
+                if (string.IsNullOrWhiteSpace(sor)) //Zalán ez nézi a spacet
+                {
+                    if (pálya.Count > 0) //Zalán ha van egy akár egy sor akkor hozzáadja
+                    {
+                        Pályák.Add(pálya.ToArray());
+                        pálya.Clear(); //Zalán az aktuális listát ürítjük hogy nézzük a kövi pályát
+                    }
+                }
+                else
+                {
+                    pálya.Add(sor); 
+                }
+            }
 
-        string[] sorok = File.ReadAllLines("Pálya.txt");
+            if (pálya.Count > 0)
+            {
+                Pályák.Add(pálya.ToArray()); // ez majd a utolsó pályánál fontos hogy hozzáadja
+            }
+        }
+
     }
 }
