@@ -33,17 +33,17 @@ namespace AlienBlast
                 {
                     for (int x = 0; x < pályaSor[y].Length; x++)
                     {
-                       
+
                         if (pályaSor[y][x] == '1')
                         {
                             var négyzet = new System.Windows.Shapes.Rectangle
                             {
                                 Width = 96,
                                 Height = 96,
-                                Fill = System.Windows.Media.Brushes.Orange, 
+                                Fill = System.Windows.Media.Brushes.Orange,
                             };
                             // na majd it a Zalánnal lesz pár mondatom
-                           
+
                             Canvas.SetLeft(négyzet, x * 96); // ez az x
                             Canvas.SetTop(négyzet, y * 96);  // ez az y 
                             canvas.Children.Add(négyzet);
@@ -52,9 +52,20 @@ namespace AlienBlast
                 }
             }
 
+
             // no meg az hogy miért a másodikat tölti be a pályákból?
 
+            //var négyzet = new System.Windows.Shapes.Rectangle
+            //{
+            //    Width = 96,
+            //    Height = 96,
+            //    Fill = System.Windows.Media.Brushes.Orange,
+            //};
+            //// na majd it a Zalánnal lesz pár mondatom
 
+            //Canvas.SetLeft(négyzet, 100); // ez az x
+            //Canvas.SetTop(négyzet, 100);  // ez az y 
+            //canvas.Children.Add(négyzet);
 
 
 
@@ -66,7 +77,8 @@ namespace AlienBlast
                 timer.Stop();
                 //enemy movement
                 player.Gravity();
-                MovePlayer(sender, e);
+                player.MovePlayer();
+                Restart();
                 timer.Start();
             };
             timer.Start();
@@ -74,20 +86,18 @@ namespace AlienBlast
             Loaded += (sender, e) =>
             {
                 //map generálás
-                player = new Player(100, 100, canvas);
+                player = new Player(1500, 100, canvas);
             };
 
-            void MovePlayer(object sender, EventArgs e)
+            void Restart()
             {
-                if (Keyboard.IsKeyDown(Key.Left) || Keyboard.IsKeyDown(Key.A))
+                if (Keyboard.IsKeyDown(Key.R))
                 {
-                    player.MoveLeft();
-                }
-                if (Keyboard.IsKeyDown(Key.Right) || Keyboard.IsKeyDown(Key.D))
-                {
-                    player.MoveRight();
+                    player.Kill();
+                    player = new Player(1500, 100, canvas);
                 }
             }
+            
         }
 
 
