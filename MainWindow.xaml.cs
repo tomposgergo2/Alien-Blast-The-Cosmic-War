@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows;
@@ -48,14 +49,18 @@ namespace AlienBlast
 
 
 
-            timer.Interval = TimeSpan.FromMilliseconds(1);
+            timer.Interval = TimeSpan.FromMilliseconds(10);
             timer.Tick += (sender, e) =>
             {
                 timer.Stop();
+
                 //enemy movement
+                player.MoveUp();
                 player.Gravity();
-                player.MovePlayer(); //ZALÁN EZ MI??
+                player.MovePlayer(); //ZALÁN EZ MI?? //EZ MOZGATJA A KARAKTERT
+                Exit();
                 Restart();
+
                 timer.Start();
             };
             timer.Start();
@@ -64,21 +69,27 @@ namespace AlienBlast
             {
                 //map generálás
                 Pálya pálya = new Pálya(canvas);
-                pálya.Generálás(0);
-                player = new Player(1500, 100, canvas);
+                pálya.Generálás(3);
+                player = new Player(100, 100, canvas);
             };
 
             void Restart()
             {
                 if (Keyboard.IsKeyDown(Key.R))
                 {
-                    player.Kill(); //ZALÁN EZ MI? a varázslásról nem volt szó. most már az első pálya jelenik meg.
-                    player = new Player(1500, 100, canvas);
+                    player.Kill(); //ZALÁN EZ MI? a varázslásról nem volt szó. most már az első pálya jelenik meg. //EZ ÖLI MEG A KARATKERT TEHÁT TÖRLI HOGY NE LEGYEN KETTŐ AMIKOR ÚJAT HOZ LÉTRE
+                    player = new Player(100, 100, canvas);
                 }
             }
             
         }
 
-
+        private void Exit()
+        {
+            if (Keyboard.IsKeyDown(Key.Escape))
+            {
+                Close();
+            }
+        }
     }
 }

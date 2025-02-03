@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 
 namespace AlienBlast
@@ -16,13 +17,14 @@ namespace AlienBlast
     {
         public double X { get; set; }
         public double Y { get; set; }
-        public double W { get; set; }
-        public double H { get; set; }
-        public double Velocity { get; set; }
-        public double G { get; set; } = 1;
-        public string img { get; set; }
-        public Canvas canvas { get; set; }
-        public System.Windows.Shapes.Rectangle player { get; set; }
+        private double W { get; set; }
+        private double H { get; set; }
+        private double Velocity { get; set; }
+        private double G { get; set; } = 1;
+        private double Jumping { get; set; } = -1;
+        private string img { get; set; }
+        private Canvas canvas { get; set; }
+        private System.Windows.Shapes.Rectangle player { get; set; }
 
         public Player(double x, double y, Canvas canvas, double v = 10, double w = 96, double h = 96)
         {
@@ -51,20 +53,24 @@ namespace AlienBlast
         }
         public void Gravity()
         {
-            var collision = CollisionCheck("B");
-            if (collision != null && (bool)collision)
+            if (Jumping <= 0)
             {
-                Canvas.SetTop(player, Y - 3);
-                Y = Canvas.GetTop(player);
-                G = 1;
-            }
-            else if (collision != null && !(bool)collision)
-            {
-                Canvas.SetTop(player, Y + G);
-                Y = Canvas.GetTop(player);
-                if (G < 10)
+                var collision = CollisionCheck("B");
+                if (collision != null && (bool)collision)
                 {
-                    G++;
+                    Canvas.SetTop(player, Y - 5);
+                    Y = Canvas.GetTop(player);
+                    G = 1;
+                }
+                else if (collision != null && !(bool)collision)
+                {
+                    Canvas.SetTop(player, Y + G);
+                    Y = Canvas.GetTop(player);
+                    if (G < 10)
+                    {
+                        G++;
+                    }
+                    Jumping = 0;
                 }
             }
         }
@@ -79,6 +85,10 @@ namespace AlienBlast
             {
                 MoveRight();
             }
+            if (Keyboard.IsKeyDown(Key.Up) || Keyboard.IsKeyDown(Key.W))
+            {
+                Jump();
+            }
         }
 
         public void Kill()
@@ -86,22 +96,70 @@ namespace AlienBlast
             canvas.Children.Remove(player);
         }
 
-        public void MoveLeft()
+        private void MoveLeft()
         {
             var collision = CollisionCheck("L");
             if (collision != null && !(bool)collision)
             {
                 Canvas.SetLeft(player, X - Velocity);
                 X = Canvas.GetLeft(player);
+                Velocity = 10;
+            }
+            else if (collision != null && (bool)collision)
+            {
+                Canvas.SetLeft(player, X + 3);
+                X = Canvas.GetLeft(player);
+                Velocity = 1;
             }
         }
-        public void MoveRight()
+        private void MoveRight()
         {
-            Canvas.SetLeft(player, X + Velocity);
-            X = Canvas.GetLeft(player);
+            var collision = CollisionCheck("R");
+            if (collision != null && !(bool)collision)
+            {
+                Canvas.SetLeft(player, X + Velocity);
+                X = Canvas.GetLeft(player);
+                Velocity = 10;
+            }
+            else if (collision != null && (bool)collision)
+            {
+                Canvas.SetLeft(player, X - 3);
+                X = Canvas.GetLeft(player);
+                Velocity = 1;
+            }
+        }
+        public void MoveUp()
+        {
+            if (Jumping != -1)
+            {
+                var collision = CollisionCheck("T");
+                if (collision != null && (bool)collision)
+                {
+                    Canvas.SetTop(player, Y + 10);
+                    Y = Canvas.GetTop(player);
+                    Jumping = -1;
+                }
+                else if (collision != null && !(bool)collision)
+                {
+                    Canvas.SetTop(player, Y - Jumping);
+                    Y = Canvas.GetTop(player);
+                    Jumping--;
+                    if (Jumping < -1) 
+                    {
+                        Jumping = -1;
+                    }
+                }
+            }
+        }
+        private void Jump()
+        {
+            if (Jumping == -1)
+            {
+                Jumping = 20;
+            }
         }
 
-        public bool? CollisionCheck(string dir)
+        private bool? CollisionCheck(string dir)
         {
             if (dir == "B")
             {
@@ -114,7 +172,7 @@ namespace AlienBlast
                     var rect = (System.Windows.UIElement)rectangle;
                     if (rect != player)
                     {
-                        if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && Canvas.GetTop(rect) + 1 == plyrY)
+                        if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && Canvas.GetTop(rect) - 1 == plyrY)
                         {
                             return null;
                         }
@@ -139,7 +197,11 @@ namespace AlienBlast
                     var rect = (System.Windows.UIElement)rectangle;
                     if (rect != player)
                     {
-                        if (Canvas.GetTop(rect) <= plyrY2 && Canvas.GetTop(rect) + 96 >= plyrY1 && Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2)
+                        if (Canvas.GetTop(rect) <= plyrY2 && Canvas.GetTop(rect) + 96 >= plyrY1 && Canvas.GetLeft(rect) + 97 == plyrX1)
+                        {
+                            return null;
+                        }
+                        else if (Canvas.GetTop(rect) <= plyrY2 && Canvas.GetTop(rect) + 96 >= plyrY1 && Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2)
                         {
                             return true;
                         }
@@ -158,7 +220,11 @@ namespace AlienBlast
                     var rect = (System.Windows.UIElement)rectangle;
                     if (rect != player)
                     {
-                        if (Canvas.GetLeft(rect) >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 > plyrY - H))
+                        if (Canvas.GetLeft(rect) - 1 == plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 > plyrY - H))
+                        {
+                            return null;
+                        }
+                        else if (Canvas.GetLeft(rect) >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 > plyrY - H))
                         {
                             return true;
                         }
@@ -170,14 +236,14 @@ namespace AlienBlast
             {
                 var plyrX1 = Canvas.GetLeft(player);
                 var plyrX2 = Canvas.GetLeft(player) + W;
-                var plyrY = Canvas.GetTop(player) + H;
+                var plyrY = Canvas.GetTop(player);
 
                 foreach (var rectangle in canvas.Children)
                 {
                     var rect = (System.Windows.UIElement)rectangle;
                     if (rect != player)
                     {
-                        if (Canvas.GetLeft(rect) >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 > plyrY - H))
+                        if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 >= plyrY))
                         {
                             return true;
                         }
