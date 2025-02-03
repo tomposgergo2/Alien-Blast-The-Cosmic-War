@@ -48,7 +48,11 @@ namespace AlienBlast
                     }
                 }
             }
+
+            
         }
+
+        
 
         private void Beolvasás()
         {
