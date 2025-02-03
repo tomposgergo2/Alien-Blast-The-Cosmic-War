@@ -54,7 +54,7 @@ namespace AlienBlast
                 timer.Stop();
                 //enemy movement
                 player.Gravity();
-                player.MovePlayer();
+                player.MovePlayer(); //ZALÁN EZ MI??
                 Restart();
                 timer.Start();
             };
@@ -72,7 +72,7 @@ namespace AlienBlast
             {
                 if (Keyboard.IsKeyDown(Key.R))
                 {
-                    player.Kill();
+                    player.Kill(); //ZALÁN EZ MI? a varázslásról nem volt szó. most már az első pálya jelenik meg.
                     player = new Player(1500, 100, canvas);
                 }
             }

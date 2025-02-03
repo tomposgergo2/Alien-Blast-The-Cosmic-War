@@ -22,37 +22,33 @@ namespace AlienBlast
 
         public void Generálás(int pályaindex)
         {
-           
+            if (pályaindex < 0 || pályaindex >= Pályák.Count)
+                return; 
 
-            foreach (var pályaSor in Pályák)
+            var pályaSor = Pályák[pályaindex]; 
+
+            for (int y = 0; y < pályaSor.Length; y++)
             {
-                for (int y = 0; y < pályaSor.Length; y++)
+                for (int x = 0; x < pályaSor[y].Length; x++)
                 {
-                    for (int x = 0; x < pályaSor[y].Length; x++)
+                    if (pályaSor[y][x] == '1')
                     {
-
-                        if (pályaSor[y][x] == '1')
+                        var négyzet = new System.Windows.Shapes.Rectangle
                         {
-                            var négyzet = new System.Windows.Shapes.Rectangle
-                            {
-                                Width = 96,
-                                Height = 96,
-                                Fill = System.Windows.Media.Brushes.Orange,
-                            };
-                            // na majd it a Zalánnal lesz pár mondatom
+                            Width = 96,
+                            Height = 96,
+                            Fill = System.Windows.Media.Brushes.Orange,
+                        };
 
-                            Canvas.SetLeft(négyzet, x * 96); // ez az x
-                            Canvas.SetTop(négyzet, y * 96);  // ez az y 
-                            canvas.Children.Add(négyzet);
-                        }
+                        Canvas.SetLeft(négyzet, x * 96); // x koordináta
+                        Canvas.SetTop(négyzet, y * 96); // y koordináta
+                        canvas.Children.Add(négyzet);
                     }
                 }
             }
-
-            
         }
 
-        
+
 
         private void Beolvasás()
         {
