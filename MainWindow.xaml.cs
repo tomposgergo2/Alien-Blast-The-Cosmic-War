@@ -22,6 +22,8 @@ namespace AlienBlast
     {
         DispatcherTimer timer = new DispatcherTimer();
         Player player;
+        double playerX;
+        double playerY;
         Pálya pálya;
         
         public MainWindow()
@@ -55,6 +57,7 @@ namespace AlienBlast
                 timer.Stop();
 
                 //enemy movement
+                Fallen();
                 player.MoveUp();
                 player.Gravity();
                 player.MovePlayer(); //ZALÁN EZ MI?? //EZ MOZGATJA A KARAKTERT
@@ -70,7 +73,9 @@ namespace AlienBlast
                 //map generálás
                 Pálya pálya = new Pálya(canvas);
                 pálya.Generálás(3);
-                player = new Player(100, 100, canvas);
+                playerX = 100;
+                playerY = 100;
+                player = new Player(playerX, playerY, canvas);
             };
 
             void Restart()
@@ -78,10 +83,19 @@ namespace AlienBlast
                 if (Keyboard.IsKeyDown(Key.R))
                 {
                     player.Kill(); //ZALÁN EZ MI? a varázslásról nem volt szó. most már az első pálya jelenik meg. //EZ ÖLI MEG A KARATKERT TEHÁT TÖRLI HOGY NE LEGYEN KETTŐ AMIKOR ÚJAT HOZ LÉTRE
-                    player = new Player(100, 100, canvas);
+                    player = new Player(playerX, playerY, canvas);
                 }
             }
             
+        }
+
+        private void Fallen()
+        {
+            if (player.Y > 1080)
+            {
+                player.Kill();
+                player = new Player(playerX, playerY, canvas);
+            }
         }
 
         private void Exit()
