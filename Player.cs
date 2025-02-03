@@ -51,13 +51,14 @@ namespace AlienBlast
         }
         public void Gravity()
         {
-            if (CollisionCheck("B"))
+            var collision = CollisionCheck("B");
+            if (collision != null && (bool)collision)
             {
-                Canvas.SetTop(player, Y - 1);
+                Canvas.SetTop(player, Y - 3);
                 Y = Canvas.GetTop(player);
                 G = 1;
             }
-            else
+            else if (collision != null && !(bool)collision)
             {
                 Canvas.SetTop(player, Y + G);
                 Y = Canvas.GetTop(player);
@@ -87,7 +88,8 @@ namespace AlienBlast
 
         public void MoveLeft()
         {
-            if (!CollisionCheck("L"))
+            var collision = CollisionCheck("L");
+            if (collision != null && !(bool)collision)
             {
                 Canvas.SetLeft(player, X - Velocity);
                 X = Canvas.GetLeft(player);
@@ -99,7 +101,7 @@ namespace AlienBlast
             X = Canvas.GetLeft(player);
         }
 
-        public bool CollisionCheck(string dir)
+        public bool? CollisionCheck(string dir)
         {
             if (dir == "B")
             {
@@ -112,12 +114,17 @@ namespace AlienBlast
                     var rect = (System.Windows.UIElement)rectangle;
                     if (rect != player)
                     {
-                        if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 > plyrY - H))
+                        if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && Canvas.GetTop(rect) + 1 == plyrY)
+                        {
+                            return null;
+                        }
+                        else if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 > plyrY - H))
                         {
                             return true;
                         }
                     }
                 }
+                return false;
             }
 
             if (dir == "L")
