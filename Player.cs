@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -26,6 +27,7 @@ namespace AlienBlast
         private double Jumping { get; set; } = -1;
         private Canvas canvas { get; set; }
         private System.Windows.Shapes.Rectangle player { get; set; }
+        private string Dir { get; set; } = "R";
         private string Idle
         {
             get
@@ -124,41 +126,18 @@ namespace AlienBlast
             {
                 ChangeCharacter("L");
                 MoveLeft();
+                Dir = "L";
             }
             if (Keyboard.IsKeyDown(Key.Right) || Keyboard.IsKeyDown(Key.D))
             {
                 ChangeCharacter("R");
                 MoveRight();
+                Dir = "R";
             }
             if (Keyboard.IsKeyDown(Key.Up) || Keyboard.IsKeyDown(Key.W))
             {
                 Jump();
             }
-        }
-        public bool IsTouchingPortal(char portalType)
-        {
-            double plyrX = Canvas.GetLeft(player);
-            double plyrY = Canvas.GetTop(player);
-            double plyrW = player.Width;
-            double plyrH = player.Height;
-
-            foreach (var child in canvas.Children)
-            {
-                if (child is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == portalType)
-                {
-                    double rectX = Canvas.GetLeft(rect);
-                    double rectY = Canvas.GetTop(rect);
-                    double rectW = rect.Width;
-                    double rectH = rect.Height;
-
-                    if (plyrX + plyrW > rectX && plyrX < rectX + rectW &&
-                        plyrY + plyrH > rectY && plyrY < rectY + rectH)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
 
@@ -205,6 +184,7 @@ namespace AlienBlast
         {
             if (Jumping != -1)
             {
+                ChangeCharacter("A");
                 var collision = CollisionCheck("T");
                 if (collision != null && (bool)collision)
                 {
@@ -245,10 +225,36 @@ namespace AlienBlast
             
             if (dir == "I")
             {
-                player.Fill = new ImageBrush
+                if (Jumping == -1 && Dir == "R")
                 {
-                    ImageSource = new BitmapImage(new Uri(Idle))
-                };
+                    player.Fill = new ImageBrush
+                    {
+                        ImageSource = new BitmapImage(new Uri(Idle))
+                    };
+                }
+                else if (Jumping == -1 && Dir == "L")
+                {
+                    player.Fill = new ImageBrush
+                    {
+                        ImageSource = new BitmapImage(new Uri(Idle)),
+                        Transform = new ScaleTransform(-1, 1, 50, 50)
+                    };
+                }
+                else if (Dir == "R")
+                {
+                    player.Fill = new ImageBrush
+                    {
+                        ImageSource = new BitmapImage(new Uri(Air))
+                    };
+                }
+                else if (Dir == "L")
+                {
+                    player.Fill = new ImageBrush
+                    {
+                        ImageSource = new BitmapImage(new Uri(Air)),
+                        Transform = new ScaleTransform(-1, 1, 50, 50)
+                    };
+                }
             }
             else if (dir == "R")
             {
@@ -301,7 +307,8 @@ namespace AlienBlast
                 foreach (var rectangle in canvas.Children)
                 {
                     var rect = (System.Windows.UIElement)rectangle;
-                    if (rect != player)
+                    var rect2 = (FrameworkElement)rectangle;
+                    if (rect != player && rect2.Name != "Portal")
                     {
                         if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && Canvas.GetTop(rect) - 1 == plyrY)
                         {
@@ -326,7 +333,8 @@ namespace AlienBlast
                 foreach (var rectangle in canvas.Children)
                 {
                     var rect = (System.Windows.UIElement)rectangle;
-                    if (rect != player)
+                    var rect2 = (FrameworkElement)rectangle;
+                    if (rect != player && rect2.Name != "Portal")
                     {
                         if (Canvas.GetTop(rect) <= plyrY2 && Canvas.GetTop(rect) + 96 >= plyrY1 && Canvas.GetLeft(rect) + 97 == plyrX1)
                         {
@@ -349,7 +357,8 @@ namespace AlienBlast
                 foreach (var rectangle in canvas.Children)
                 {
                     var rect = (System.Windows.UIElement)rectangle;
-                    if (rect != player)
+                    var rect2 = (FrameworkElement)rectangle;
+                    if (rect != player && rect2.Name != "Portal")
                     {
                         if (Canvas.GetLeft(rect) - 1 == plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 > plyrY - H))
                         {
@@ -372,7 +381,8 @@ namespace AlienBlast
                 foreach (var rectangle in canvas.Children)
                 {
                     var rect = (System.Windows.UIElement)rectangle;
-                    if (rect != player)
+                    var rect2 = (FrameworkElement)rectangle;
+                    if (rect != player && rect2.Name != "Portal")
                     {
                         if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 >= plyrY))
                         {
@@ -385,5 +395,30 @@ namespace AlienBlast
             return false;
         }
 
+        public bool IsTouchingPortal(char portalType)
+        {
+            double plyrX = Canvas.GetLeft(player);
+            double plyrY = Canvas.GetTop(player);
+            double plyrW = player.Width;
+            double plyrH = player.Height;
+
+            foreach (var child in canvas.Children)
+            {
+                if (child is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == portalType)
+                {
+                    double rectX = Canvas.GetLeft(rect);
+                    double rectY = Canvas.GetTop(rect);
+                    double rectW = rect.Width;
+                    double rectH = rect.Height;
+
+                    if (plyrX + plyrW > rectX && plyrX < rectX + rectW &&
+                        plyrY + plyrH > rectY && plyrY < rectY + rectH)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

@@ -51,7 +51,8 @@ namespace AlienBlast
                             Width = 96,
                             Height = 96,
                             Fill = System.Windows.Media.Brushes.Blue,
-                            Tag = '3'
+                            Tag = '3',
+                            Name = "Portal"
                         };
 
                         Canvas.SetLeft(portal, x * 96);
@@ -66,7 +67,8 @@ namespace AlienBlast
                             Width = 96,
                             Height = 96,
                             Fill = System.Windows.Media.Brushes.Pink,
-                            Tag = '4'
+                            Tag = '4',
+                            Name = "Portal"
                         };
 
                         Canvas.SetLeft(portal, x * 96);
