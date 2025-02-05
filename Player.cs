@@ -67,7 +67,7 @@ namespace AlienBlast
             }
         }
 
-        public Player(double x, double y, Canvas canvas, double v = 10, double w = 94, double h = 94)
+        public Player(double x, double y, Canvas canvas, double v = 10, double w = 90, double h = 90)
         {
             X = x;
             Y = y;
