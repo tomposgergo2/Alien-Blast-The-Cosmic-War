@@ -90,6 +90,37 @@ namespace AlienBlast
                 Jump();
             }
         }
+        public bool KékPortálonÁll()
+        {
+            double plyrX = Canvas.GetLeft(player);
+            double plyrY = Canvas.GetTop(player);
+            double plyrW = player.Width;
+            double plyrH = player.Height;
+
+            foreach (var rectangle in canvas.Children)
+            {
+                if (rectangle is System.Windows.Shapes.Rectangle rect)
+                {
+                    if (rect.Fill == Brushes.Black) // Csak a kék blokkokat ellenőrizzük
+                    {
+                        double rectX = Canvas.GetLeft(rect);
+                        double rectY = Canvas.GetTop(rect);
+                        double rectW = rect.Width;
+                        double rectH = rect.Height;
+
+                        // Ellenőrizzük, hogy a játékos közvetlenül rajta áll-e a portálon
+                        if (plyrX + plyrW > rectX && plyrX < rectX + rectW &&
+                            plyrY + plyrH > rectY && plyrY < rectY + rectH)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+
 
         public void Kill()
         {

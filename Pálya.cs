@@ -44,6 +44,32 @@ namespace AlienBlast
                         Canvas.SetTop(négyzet, y * 96); // y koordináta
                         canvas.Children.Add(négyzet);
                     }
+                    if (pályaSor[y][x] == '3')
+                    {
+                        var négyzet = new System.Windows.Shapes.Rectangle
+                        {
+                            Width = 96,
+                            Height = 96,
+                            Fill = System.Windows.Media.Brushes.Black,
+                        };
+
+                        Canvas.SetLeft(négyzet, x * 96); // x koordináta
+                        Canvas.SetTop(négyzet, y * 96); // y koordináta
+                        canvas.Children.Add(négyzet);
+                    }
+                    if (pályaSor[y][x] == '4')
+                    {
+                        var négyzet = new System.Windows.Shapes.Rectangle
+                        {
+                            Width = 96,
+                            Height = 96,
+                            Fill = System.Windows.Media.Brushes.Pink,
+                        };
+
+                        Canvas.SetLeft(négyzet, x * 96); // x koordináta
+                        Canvas.SetTop(négyzet, y * 96); // y koordináta
+                        canvas.Children.Add(négyzet);
+                    }
                 }
             }
         }

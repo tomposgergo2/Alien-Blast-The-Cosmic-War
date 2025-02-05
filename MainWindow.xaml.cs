@@ -25,31 +25,11 @@ namespace AlienBlast
         double playerX;
         double playerY;
         Pálya pálya;
-        
+        int jelenlegiPályaIndex = 0;
+
         public MainWindow()
         {
             InitializeComponent();
-
-            
-
-
-            // no meg az hogy miért a másodikat tölti be a pályákból?
-
-            //var négyzet = new System.Windows.Shapes.Rectangle
-            //{
-            //    Width = 96,
-            //    Height = 96,
-            //    Fill = System.Windows.Media.Brushes.Orange,
-            //};
-            //// na majd it a Zalánnal lesz pár mondatom
-
-            //Canvas.SetLeft(négyzet, 100); // ez az x
-            //Canvas.SetTop(négyzet, 100);  // ez az y 
-            //canvas.Children.Add(négyzet);
-
-
-
-
 
             timer.Interval = TimeSpan.FromMilliseconds(10);
             timer.Tick += (sender, e) =>
@@ -60,7 +40,8 @@ namespace AlienBlast
                 Fallen();
                 player.MoveUp();
                 player.Gravity();
-                player.MovePlayer(); //ZALÁN EZ MI?? //EZ MOZGATJA A KARAKTERT
+                player.MovePlayer();
+                EllenőrizPortált();
                 Exit();
                 Restart();
 
@@ -70,23 +51,58 @@ namespace AlienBlast
 
             Loaded += (sender, e) =>
             {
-                //map generálás
-                Pálya pálya = new Pálya(canvas);
-                pálya.Generálás(3);
-                playerX = 100;
-                playerY = 100;
-                player = new Player(playerX, playerY, canvas);
+                GenerálPályát();
             };
+        }
 
-            void Restart()
+        private void GenerálPályát()
+        {
+            if (pálya == null)
             {
-                if (Keyboard.IsKeyDown(Key.R))
+                pálya = new Pálya(canvas);
+            }
+
+            canvas.Children.Clear();
+            pálya.Generálás(jelenlegiPályaIndex);
+
+            // Játékos kezdőpozíciót változtassuk meg
+            playerX = 200; // Korábban 100 volt
+            playerY = 200;
+
+            if (player != null)
+            {
+                player.Kill();
+            }
+
+            player = new Player(playerX, playerY, canvas);
+        }
+
+
+        private void EllenőrizPortált()
+        {
+
+            if (pálya == null || player == null) return;
+
+            if (player.KékPortálonÁll())
+            {
+
+
+                if (jelenlegiPályaIndex + 1 < pálya.Pályák.Count)
                 {
-                    player.Kill(); //ZALÁN EZ MI? a varázslásról nem volt szó. most már az első pálya jelenik meg. //EZ ÖLI MEG A KARATKERT TEHÁT TÖRLI HOGY NE LEGYEN KETTŐ AMIKOR ÚJAT HOZ LÉTRE
-                    player = new Player(playerX, playerY, canvas);
+                    jelenlegiPályaIndex++;
+                    GenerálPályát();
                 }
             }
-            
+        }
+
+
+        private void Restart()
+        {
+            if (Keyboard.IsKeyDown(Key.R))
+            {
+                player.Kill();
+                player = new Player(playerX, playerY, canvas);
+            }
         }
 
         private void Fallen()
