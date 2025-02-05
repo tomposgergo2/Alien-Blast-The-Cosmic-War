@@ -26,7 +26,7 @@ namespace AlienBlast
         private Canvas canvas { get; set; }
         private System.Windows.Shapes.Rectangle player { get; set; }
 
-        public Player(double x, double y, Canvas canvas, double v = 10, double w = 96, double h = 96)
+        public Player(double x, double y, Canvas canvas, double v = 10, double w = 94, double h = 94)
         {
             X = x;
             Y = y;
@@ -135,7 +135,7 @@ namespace AlienBlast
                 var collision = CollisionCheck("T");
                 if (collision != null && (bool)collision)
                 {
-                    Canvas.SetTop(player, Y + 10);
+                    Canvas.SetTop(player, Y + 20);
                     Y = Canvas.GetTop(player);
                     Jumping = -1;
                 }
