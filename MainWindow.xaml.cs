@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows;
@@ -30,6 +31,32 @@ namespace AlienBlast
         public MainWindow()
         {
             InitializeComponent();
+
+            var path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "háttér.jpg");
+            canvas.Background = new ImageBrush
+            (
+                new BitmapImage(new Uri(path))
+            );
+            
+
+
+            // no meg az hogy miért a másodikat tölti be a pályákból?
+
+            //var négyzet = new System.Windows.Shapes.Rectangle
+            //{
+            //    Width = 96,
+            //    Height = 96,
+            //    Fill = System.Windows.Media.Brushes.Orange,
+            //};
+            //// na majd it a Zalánnal lesz pár mondatom
+
+            //Canvas.SetLeft(négyzet, 100); // ez az x
+            //Canvas.SetTop(négyzet, 100);  // ez az y 
+            //canvas.Children.Add(négyzet);
+
+
+
+
 
             timer.Interval = TimeSpan.FromMilliseconds(10);
             timer.Tick += (sender, e) =>
