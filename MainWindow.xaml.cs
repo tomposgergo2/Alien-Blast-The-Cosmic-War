@@ -107,20 +107,35 @@ namespace AlienBlast
 
         private void EllenőrizPortált()
         {
-
             if (pálya == null || player == null) return;
 
-            if (player.KékPortálonÁll())
+            if (player.IsTouchingPortal('3')) // Ha a 3-ashoz ért
             {
-
-
                 if (jelenlegiPályaIndex + 1 < pálya.Pályák.Count)
                 {
                     jelenlegiPályaIndex++;
                     GenerálPályát();
+                    TeleportToSpawn(); // A 4-es helyére rakjuk a játékost
                 }
             }
         }
+
+        private void TeleportToSpawn()
+        {
+            for (int y = 0; y < pálya.Pályák[jelenlegiPályaIndex].Length; y++)
+            {
+                for (int x = 0; x < pálya.Pályák[jelenlegiPályaIndex][y].Length; x++)
+                {
+                    if (pálya.Pályák[jelenlegiPályaIndex][y][x] == '4') // Megkeressük a 4-est
+                    {
+                        player.Kill();
+                        player = new Player(x * 96, y * 96, canvas); // Újra létrehozzuk ott
+                        return;
+                    }
+                }
+            }
+        }
+
 
 
         private void Restart()

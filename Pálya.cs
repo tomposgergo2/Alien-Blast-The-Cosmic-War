@@ -46,30 +46,34 @@ namespace AlienBlast
                     }
                     if (pályaSor[y][x] == '3')
                     {
-                        var négyzet = new System.Windows.Shapes.Rectangle
+                        var portal = new System.Windows.Shapes.Rectangle
                         {
                             Width = 96,
                             Height = 96,
-                            Fill = System.Windows.Media.Brushes.Black,
+                            Fill = System.Windows.Media.Brushes.Blue,
+                            Tag = '3'
                         };
 
-                        Canvas.SetLeft(négyzet, x * 96); // x koordináta
-                        Canvas.SetTop(négyzet, y * 96); // y koordináta
-                        canvas.Children.Add(négyzet);
+                        Canvas.SetLeft(portal, x * 96);
+                        Canvas.SetTop(portal, y * 96);
+                        canvas.Children.Add(portal);
                     }
+
                     if (pályaSor[y][x] == '4')
                     {
-                        var négyzet = new System.Windows.Shapes.Rectangle
+                        var portal = new System.Windows.Shapes.Rectangle
                         {
                             Width = 96,
                             Height = 96,
                             Fill = System.Windows.Media.Brushes.Pink,
+                            Tag = '4'
                         };
 
-                        Canvas.SetLeft(négyzet, x * 96); // x koordináta
-                        Canvas.SetTop(négyzet, y * 96); // y koordináta
-                        canvas.Children.Add(négyzet);
+                        Canvas.SetLeft(portal, x * 96);
+                        Canvas.SetTop(portal, y * 96);
+                        canvas.Children.Add(portal);
                     }
+
                 }
             }
         }
