@@ -26,7 +26,8 @@ namespace AlienBlast
         double playerX;
         double playerY;
         Pálya pálya;
-        
+        int jelenlegiPályaIndex = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -66,7 +67,8 @@ namespace AlienBlast
                 Fallen();
                 player.MoveUp();
                 player.Gravity();
-                player.MovePlayer(); //ZALÁN EZ MI?? //EZ MOZGATJA A KARAKTERT
+                player.MovePlayer();
+                EllenőrizPortált();
                 Exit();
                 Restart();
 
@@ -76,23 +78,73 @@ namespace AlienBlast
 
             Loaded += (sender, e) =>
             {
-                //map generálás
-                Pálya pálya = new Pálya(canvas);
-                pálya.Generálás(3);
-                playerX = 100;
-                playerY = 100;
-                player = new Player(playerX, playerY, canvas);
+                GenerálPályát();
             };
+        }
 
-            void Restart()
+        private void GenerálPályát()
+        {
+            if (pálya == null)
             {
-                if (Keyboard.IsKeyDown(Key.R))
+                pálya = new Pálya(canvas);
+            }
+
+            canvas.Children.Clear();
+            pálya.Generálás(jelenlegiPályaIndex);
+
+            // Játékos kezdőpozíciót változtassuk meg
+            playerX = 200; // Korábban 100 volt
+            playerY = 200;
+
+            if (player != null)
+            {
+                player.Kill();
+            }
+
+            player = new Player(playerX, playerY, canvas);
+        }
+
+
+        private void EllenőrizPortált()
+        {
+            if (pálya == null || player == null) return;
+
+            if (player.IsTouchingPortal('3')) // Ha a 3-ashoz ért
+            {
+                if (jelenlegiPályaIndex + 1 < pálya.Pályák.Count)
                 {
-                    player.Kill(); //ZALÁN EZ MI? a varázslásról nem volt szó. most már az első pálya jelenik meg. //EZ ÖLI MEG A KARATKERT TEHÁT TÖRLI HOGY NE LEGYEN KETTŐ AMIKOR ÚJAT HOZ LÉTRE
-                    player = new Player(playerX, playerY, canvas);
+                    jelenlegiPályaIndex++;
+                    GenerálPályát();
+                    TeleportToSpawn(); // A 4-es helyére rakjuk a játékost
                 }
             }
-            
+        }
+
+        private void TeleportToSpawn()
+        {
+            for (int y = 0; y < pálya.Pályák[jelenlegiPályaIndex].Length; y++)
+            {
+                for (int x = 0; x < pálya.Pályák[jelenlegiPályaIndex][y].Length; x++)
+                {
+                    if (pálya.Pályák[jelenlegiPályaIndex][y][x] == '4') // Megkeressük a 4-est
+                    {
+                        player.Kill();
+                        player = new Player(x * 96, y * 96, canvas); // Újra létrehozzuk ott
+                        return;
+                    }
+                }
+            }
+        }
+
+
+
+        private void Restart()
+        {
+            if (Keyboard.IsKeyDown(Key.R))
+            {
+                player.Kill();
+                player = new Player(playerX, playerY, canvas);
+            }
         }
 
         private void Fallen()

@@ -135,6 +135,34 @@ namespace AlienBlast
                 Jump();
             }
         }
+        public bool IsTouchingPortal(char portalType)
+        {
+            double plyrX = Canvas.GetLeft(player);
+            double plyrY = Canvas.GetTop(player);
+            double plyrW = player.Width;
+            double plyrH = player.Height;
+
+            foreach (var child in canvas.Children)
+            {
+                if (child is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == portalType)
+                {
+                    double rectX = Canvas.GetLeft(rect);
+                    double rectY = Canvas.GetTop(rect);
+                    double rectW = rect.Width;
+                    double rectH = rect.Height;
+
+                    if (plyrX + plyrW > rectX && plyrX < rectX + rectW &&
+                        plyrY + plyrH > rectY && plyrY < rectY + rectH)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
+
 
         public void Kill()
         {
