@@ -93,8 +93,8 @@ namespace AlienBlast
             pálya.Generálás(jelenlegiPályaIndex);
 
             // Játékos kezdőpozíciót változtassuk meg
-            playerX = 200; // Korábban 100 volt
-            playerY = 200;
+            playerX = 10; // Korábban 100 volt
+            playerY = 600;
 
             if (player != null)
             {
@@ -129,7 +129,9 @@ namespace AlienBlast
                     if (pálya.Pályák[jelenlegiPályaIndex][y][x] == '4') // Megkeressük a 4-est
                     {
                         player.Kill();
-                        player = new Player(x * 96, y * 96, canvas); // Újra létrehozzuk ott
+                        playerX = x * 96;
+                        playerY = y * 96;
+                        player = new Player(playerX, playerY, canvas); // Újra létrehozzuk ott
                         return;
                     }
                 }
