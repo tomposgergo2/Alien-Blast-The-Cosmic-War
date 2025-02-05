@@ -35,6 +35,15 @@ namespace AlienBlast
                 return imagePath;
             }
         }
+        private string Air
+        {
+            get
+            {
+                string playerDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "player");
+                string imagePath = Directory.GetFiles(playerDirectory, "fall.png").FirstOrDefault();
+                return imagePath;
+            }
+        }
         private string[] Walk
         {
             get
@@ -110,8 +119,10 @@ namespace AlienBlast
 
         public void MovePlayer()
         {
+            ChangeCharacter("I");
             if (Keyboard.IsKeyDown(Key.Left) || Keyboard.IsKeyDown(Key.A))
             {
+                ChangeCharacter("L");
                 MoveLeft();
             }
             if (Keyboard.IsKeyDown(Key.Right) || Keyboard.IsKeyDown(Key.D))
@@ -189,12 +200,21 @@ namespace AlienBlast
         {
             if (Jumping == -1)
             {
+                ChangeCharacter("A");
                 Jumping = 20;
             }
         }
 
         private void ChangeCharacter(string dir)
         {
+            if (dir == "A")
+            {
+                player.Fill = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri(Air))
+                };
+            }
+            
             if (dir == "I")
             {
                 player.Fill = new ImageBrush
@@ -204,11 +224,41 @@ namespace AlienBlast
             }
             else if (dir == "R")
             {
-                player.Fill = new ImageBrush
+                if (Jumping == -1)
                 {
-                    ImageSource = new BitmapImage(new Uri(Walk[WalkState]))
-                };
-                WalkState++;
+                    player.Fill = new ImageBrush
+                    {
+                        ImageSource = new BitmapImage(new Uri(Walk[WalkState]))
+                    };
+                    WalkState++;
+                }
+                else
+                {
+                    player.Fill = new ImageBrush
+                    {
+                        ImageSource = new BitmapImage(new Uri(Air))
+                    };
+                }
+            }
+            else if (dir == "L")
+            {
+                if (Jumping == -1)
+                {
+                    player.Fill = new ImageBrush
+                    {
+                        ImageSource = new BitmapImage(new Uri(Walk[WalkState])),
+                        Transform = new ScaleTransform(-1, 1, 50, 50)
+                    };
+                    WalkState++;
+                }
+                else
+                {
+                    player.Fill = new ImageBrush
+                    {
+                        ImageSource = new BitmapImage(new Uri(Air)),
+                        Transform = new ScaleTransform(-1, 1, 50, 50)
+                    };
+                }
             }
         }
 
