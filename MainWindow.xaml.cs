@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows;
@@ -30,6 +31,11 @@ namespace AlienBlast
         {
             InitializeComponent();
 
+            var path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "háttér.jpg");
+            canvas.Background = new ImageBrush
+            (
+                new BitmapImage(new Uri(path))
+            );
             
 
 
