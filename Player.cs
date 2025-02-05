@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace AlienBlast
@@ -22,9 +24,37 @@ namespace AlienBlast
         private double Velocity { get; set; }
         private double G { get; set; } = 1;
         private double Jumping { get; set; } = -1;
-        private string img { get; set; }
         private Canvas canvas { get; set; }
         private System.Windows.Shapes.Rectangle player { get; set; }
+        private string Idle
+        {
+            get
+            {
+                string playerDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "player");
+                string imagePath = Directory.GetFiles(playerDirectory, "idle.png").FirstOrDefault();
+                return imagePath;
+            }
+        }
+        private string[] Walk
+        {
+            get
+            {
+                string playerDirectory = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "player");
+                playerDirectory = System.IO.Path.Combine(playerDirectory, "walk");
+                string[] imagePath = Directory.GetFiles(playerDirectory);
+                return imagePath;
+            }
+        }
+        private int _walkState = 0;
+        private int WalkState
+        {
+            get => _walkState;
+            set
+            {
+                _walkState = value;
+                if (_walkState >= Walk.Length) _walkState = 0;
+            }
+        }
 
         public Player(double x, double y, Canvas canvas, double v = 10, double w = 94, double h = 94)
         {
@@ -32,18 +62,21 @@ namespace AlienBlast
             Y = y;
             Velocity = v;
             this.canvas = canvas;
-            player = DrawPlayer(X, Y, img);
+            player = DrawPlayer(X, Y);
             W = w;
             H = h;
         }
 
-        private System.Windows.Shapes.Rectangle DrawPlayer(double x, double y, string img)
+        private System.Windows.Shapes.Rectangle DrawPlayer(double x, double y)
         {
             var player = new System.Windows.Shapes.Rectangle
             {
                 Width = 96,
                 Height = 96,
-                Fill = Brushes.Blue
+                Fill = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri(Idle))
+                }
             };
             Canvas.SetLeft(player, X);
             Canvas.SetTop(player, Y);
@@ -83,6 +116,7 @@ namespace AlienBlast
             }
             if (Keyboard.IsKeyDown(Key.Right) || Keyboard.IsKeyDown(Key.D))
             {
+                ChangeCharacter("R");
                 MoveRight();
             }
             if (Keyboard.IsKeyDown(Key.Up) || Keyboard.IsKeyDown(Key.W))
@@ -187,6 +221,25 @@ namespace AlienBlast
             if (Jumping == -1)
             {
                 Jumping = 20;
+            }
+        }
+
+        private void ChangeCharacter(string dir)
+        {
+            if (dir == "I")
+            {
+                player.Fill = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri(Idle))
+                };
+            }
+            else if (dir == "R")
+            {
+                player.Fill = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri(Walk[WalkState]))
+                };
+                WalkState++;
             }
         }
 
