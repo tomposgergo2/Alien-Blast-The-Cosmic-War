@@ -37,7 +37,7 @@ namespace AlienBlast
                         {
                             Width = 96,
                             Height = 96,
-                            Fill = System.Windows.Media.Brushes.Orange,
+                            Fill = System.Windows.Media.Brushes.Gray,
                         };
 
                         Canvas.SetLeft(négyzet, x * 96); // x koordináta
@@ -74,6 +74,21 @@ namespace AlienBlast
                         Canvas.SetLeft(portal, x * 96);
                         Canvas.SetTop(portal, y * 96);
                         canvas.Children.Add(portal);
+                    }
+                    if (pályaSor[y][x] == '2')
+                    {
+                        var érme = new System.Windows.Shapes.Rectangle
+                        {
+                            Width = 96,
+                            Height = 96,
+                            Fill = System.Windows.Media.Brushes.Black,
+                            Tag = '2',
+                            Name = "Coin"
+                        };
+
+                        Canvas.SetLeft(érme, x * 96);
+                        Canvas.SetTop(érme, y * 96);
+                        canvas.Children.Add(érme);
                     }
 
                 }
