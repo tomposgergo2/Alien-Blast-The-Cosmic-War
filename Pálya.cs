@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace AlienBlast
 {
@@ -77,11 +78,11 @@ namespace AlienBlast
                     }
                     if (pályaSor[y][x] == '2')
                     {
-                        var érme = new System.Windows.Shapes.Rectangle
+                        var érme = new Image()
                         {
                             Width = 96,
                             Height = 96,
-                            Fill = System.Windows.Media.Brushes.Black,
+                            Source = new BitmapImage(new Uri("érme.png", UriKind.Relative)), //már megint nem jó valami a képnél
                             Tag = '2',
                             Name = "Coin"
                         };
