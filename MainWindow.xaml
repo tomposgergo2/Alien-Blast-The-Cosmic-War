@@ -7,9 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" WindowStyle="none" Height="1080px" Width="1920px">
     <Canvas Name="canvas">
-        <!--<Canvas.Background>
-            <ImageBrush ImageSource="háttér.jpg"/>
-        </Canvas.Background>-->
-        
+        <StackPanel Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="20"
+            Background="LightGray"
+            Opacity="0.8">
+            <Image Source="érme.png" Width="64" Height="64" Margin="5,0,0,0"/>
+            <TextBlock x:Name="ErmeSzamlalo" 
+               Padding="10px"        
+               Text="0" 
+               FontSize="64" 
+               FontWeight="Bold"
+               Foreground="Black"
+               Margin="5,0,0,0" Width="80"/>
+        </StackPanel>
+
     </Canvas>
 </Window>

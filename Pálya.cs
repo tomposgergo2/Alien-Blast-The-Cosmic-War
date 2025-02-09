@@ -82,7 +82,8 @@ namespace AlienBlast
                         {
                             Width = 96,
                             Height = 96,
-                            Source = new BitmapImage(new Uri("érme.png", UriKind.Relative)), //már megint nem jó valami a képnél
+                            Source = new BitmapImage(new Uri("érme.png", UriKind.Relative)),
+ //már megint nem jó valami a képnél    zalán már az érme is megjelenik
                             Tag = '2',
                             Name = "Coin"
                         };

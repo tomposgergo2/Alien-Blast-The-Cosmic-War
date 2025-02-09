@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,12 @@ namespace AlienBlast
         public StartWindow()
         {
             InitializeComponent();
+
+            var path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "kezdő.jpg");
+            canvas.Background = new ImageBrush
+            (
+                new BitmapImage(new Uri(path))
+            );
 
         }
 

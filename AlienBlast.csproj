@@ -9,6 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="érme.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="érme.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="kezdő.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="player\fall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

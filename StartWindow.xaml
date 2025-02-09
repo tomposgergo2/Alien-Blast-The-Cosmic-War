@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:AlienBlast"
         mc:Ignorable="d"
         Title="StartWindow" Height="450" Width="800">
-    <Grid>
-        <Button Content="Kezdés" Width="150" Height="50" FontSize="20"
+    <Canvas Name="canvas">
+        <Button Content="Játék" Width="150" Height="50" FontSize="20"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 Click="KezdesGomb_Click"/>
 
-    </Grid>
+    </Canvas>
 </Window>

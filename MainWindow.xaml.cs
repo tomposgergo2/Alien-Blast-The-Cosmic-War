@@ -91,6 +91,8 @@ namespace AlienBlast
 
             canvas.Children.Clear();
             pálya.Generálás(jelenlegiPályaIndex);
+            canvas.Children.Add(ErmeSzamlalo.Parent as UIElement);
+
 
             // Játékos kezdőpozíciót változtassuk meg
             playerX = 10; // Korábban 100 volt
