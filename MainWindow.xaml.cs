@@ -37,7 +37,7 @@ namespace AlienBlast
             (
                 new BitmapImage(new Uri(path))
             );
-            
+
 
 
             // no meg az hogy miért a másodikat tölti be a pályákból?
@@ -52,9 +52,7 @@ namespace AlienBlast
 
             //Canvas.SetLeft(négyzet, 100); // ez az x
             //Canvas.SetTop(négyzet, 100);  // ez az y 
-            //canvas.Children.Add(négyzet);
-
-
+            //canvas.Children.Add(négyzet);            
 
 
 
@@ -71,6 +69,7 @@ namespace AlienBlast
                 EllenőrizPortált();
                 Exit();
                 Restart();
+                CheckForCoinCollection();
 
                 timer.Start();
             };

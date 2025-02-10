@@ -395,6 +395,32 @@ namespace AlienBlast
             return false;
         }
 
+
+        //public void CheckForCoinCollection()
+        //{
+        //    int ErmeSzamlalo = 
+        //    foreach (var child in canvas.Children.OfType<Image>())
+        //    {
+        //        if (child.Tag.ToString() == "2")
+        //        {
+        //            var coinLeft = Canvas.GetLeft(child);
+        //            var coinTop = Canvas.GetTop(child);
+        //            var coinRect = new Rect(coinLeft, coinTop, child.Width, child.Height);
+
+        //            var playerRect = new Rect(player.X, player.Y, player.W, player.H);
+
+        //            if (coinRect.IntersectsWith(playerRect))
+        //            {
+        //                canvas.Children.Remove(child);
+        //                int currentCoinCount = int.Parse(ErmeSzamlalo.Text);
+        //                ErmeSzamlalo.Text = (currentCoinCount + 1).ToString();
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
+
+
         public bool IsTouchingPortal(char portalType)
         {
             double plyrX = Canvas.GetLeft(player);
