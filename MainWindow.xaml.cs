@@ -69,7 +69,7 @@ namespace AlienBlast
                 EllenőrizPortált();
                 Exit();
                 Restart();
-                CheckForCoinCollection();
+                //CheckForCoinCollection();
 
                 timer.Start();
             };
