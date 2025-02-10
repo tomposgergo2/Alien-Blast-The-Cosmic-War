@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿
 =======
 ﻿<Window x:Class="AlienBlast.StartWindow"
@@ -19,4 +18,3 @@
 
     </Canvas>
 </Window>
->>>>>>> 68c7dd7c3179d249eee1e888673d03862eb3e6c0
