@@ -121,16 +121,16 @@ namespace AlienBlast
 
         public void MovePlayer()
         {
-            ChangeCharacter("I");
+            Animation("I");
             if (Keyboard.IsKeyDown(Key.Left) || Keyboard.IsKeyDown(Key.A))
             {
-                ChangeCharacter("L");
+                Animation("L");
                 MoveLeft();
                 Dir = "L";
             }
             if (Keyboard.IsKeyDown(Key.Right) || Keyboard.IsKeyDown(Key.D))
             {
-                ChangeCharacter("R");
+                Animation("R");
                 MoveRight();
                 Dir = "R";
             }
@@ -184,7 +184,7 @@ namespace AlienBlast
         {
             if (Jumping != -1)
             {
-                ChangeCharacter("A");
+                Animation("A");
                 var collision = CollisionCheck("T");
                 if (collision != null && (bool)collision)
                 {
@@ -208,12 +208,12 @@ namespace AlienBlast
         {
             if (Jumping == -1)
             {
-                ChangeCharacter("A");
+                Animation("A");
                 Jumping = 20;
             }
         }
 
-        private void ChangeCharacter(string dir)
+        private void Animation(string dir)
         {
             if (dir == "A")
             {
