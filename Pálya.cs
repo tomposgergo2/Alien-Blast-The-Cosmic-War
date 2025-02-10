@@ -26,7 +26,8 @@ namespace AlienBlast
             if (pályaindex < 0 || pályaindex >= Pályák.Count)
                 return; 
 
-            var pályaSor = Pályák[pályaindex]; 
+            var pályaSor = Pályák[pályaindex];
+
 
             for (int y = 0; y < pályaSor.Length; y++)
             {
@@ -39,6 +40,7 @@ namespace AlienBlast
                             Width = 96,
                             Height = 96,
                             Fill = System.Windows.Media.Brushes.Gray,
+                            Tag = '1'
                         };
 
                         Canvas.SetLeft(négyzet, x * 96); // x koordináta
@@ -92,7 +94,6 @@ namespace AlienBlast
                         Canvas.SetTop(érme, y * 96);
                         canvas.Children.Add(érme);
                     }
-
                 }
             }
         }

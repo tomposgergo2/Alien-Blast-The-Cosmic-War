@@ -26,7 +26,7 @@ namespace AlienBlast
         double playerX;
         double playerY;
         Pálya pálya;
-        int jelenlegiPályaIndex = 0;
+        public int jelenlegiPályaIndex = 0;
 
         public MainWindow()
         {
@@ -37,7 +37,7 @@ namespace AlienBlast
             (
                 new BitmapImage(new Uri(path))
             );
-            
+
 
 
             // no meg az hogy miért a másodikat tölti be a pályákból?
@@ -52,9 +52,7 @@ namespace AlienBlast
 
             //Canvas.SetLeft(négyzet, 100); // ez az x
             //Canvas.SetTop(négyzet, 100);  // ez az y 
-            //canvas.Children.Add(négyzet);
-
-
+            //canvas.Children.Add(négyzet);            
 
 
 
@@ -71,6 +69,7 @@ namespace AlienBlast
                 EllenőrizPortált();
                 Exit();
                 Restart();
+                CheckForCoinCollection();
 
                 timer.Start();
             };
@@ -79,6 +78,16 @@ namespace AlienBlast
             Loaded += (sender, e) =>
             {
                 GenerálPályát();
+            };
+
+            KeyDown += (sender, e) =>
+            {
+                if (e.Key == Key.Escape)
+                {
+                    StartWindow menu = new StartWindow();
+                    menu.Show();
+                    this.Close();
+                }
             };
         }
 
@@ -164,8 +173,11 @@ namespace AlienBlast
         {
             if (Keyboard.IsKeyDown(Key.Escape))
             {
-                Close();
             }
+        }
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            
         }
     }
 }

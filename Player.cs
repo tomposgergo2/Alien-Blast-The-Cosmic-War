@@ -121,16 +121,16 @@ namespace AlienBlast
 
         public void MovePlayer()
         {
-            ChangeCharacter("I");
+            Animation("I");
             if (Keyboard.IsKeyDown(Key.Left) || Keyboard.IsKeyDown(Key.A))
             {
-                ChangeCharacter("L");
+                Animation("L");
                 MoveLeft();
                 Dir = "L";
             }
             if (Keyboard.IsKeyDown(Key.Right) || Keyboard.IsKeyDown(Key.D))
             {
-                ChangeCharacter("R");
+                Animation("R");
                 MoveRight();
                 Dir = "R";
             }
@@ -184,7 +184,7 @@ namespace AlienBlast
         {
             if (Jumping != -1)
             {
-                ChangeCharacter("A");
+                Animation("A");
                 var collision = CollisionCheck("T");
                 if (collision != null && (bool)collision)
                 {
@@ -208,12 +208,12 @@ namespace AlienBlast
         {
             if (Jumping == -1)
             {
-                ChangeCharacter("A");
+                Animation("A");
                 Jumping = 20;
             }
         }
 
-        private void ChangeCharacter(string dir)
+        private void Animation(string dir)
         {
             if (dir == "A")
             {
@@ -306,9 +306,7 @@ namespace AlienBlast
 
                 foreach (var rectangle in canvas.Children)
                 {
-                    var rect = (System.Windows.UIElement)rectangle;
-                    var rect2 = (FrameworkElement)rectangle;
-                    if (rect != player && rect2.Name != "Portal")
+                    if (rectangle is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == '1')
                     {
                         if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && Canvas.GetTop(rect) - 1 == plyrY)
                         {
@@ -332,9 +330,7 @@ namespace AlienBlast
 
                 foreach (var rectangle in canvas.Children)
                 {
-                    var rect = (System.Windows.UIElement)rectangle;
-                    var rect2 = (FrameworkElement)rectangle;
-                    if (rect != player && rect2.Name != "Portal")
+                    if (rectangle is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == '1')
                     {
                         if (Canvas.GetTop(rect) <= plyrY2 && Canvas.GetTop(rect) + 96 >= plyrY1 && Canvas.GetLeft(rect) + 97 == plyrX1)
                         {
@@ -356,9 +352,7 @@ namespace AlienBlast
 
                 foreach (var rectangle in canvas.Children)
                 {
-                    var rect = (System.Windows.UIElement)rectangle;
-                    var rect2 = (FrameworkElement)rectangle;
-                    if (rect != player && rect2.Name != "Portal")
+                    if (rectangle is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == '1')
                     {
                         if (Canvas.GetLeft(rect) - 1 == plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 > plyrY - H))
                         {
@@ -380,9 +374,7 @@ namespace AlienBlast
 
                 foreach (var rectangle in canvas.Children)
                 {
-                    var rect = (System.Windows.UIElement)rectangle;
-                    var rect2 = (FrameworkElement)rectangle;
-                    if (rect != player && rect2.Name != "Portal")
+                    if (rectangle is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == '1')
                     {
                         if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 >= plyrY))
                         {
@@ -394,6 +386,32 @@ namespace AlienBlast
 
             return false;
         }
+
+
+        public void CheckForCoinCollection()
+        {
+            TextBlock ErmeSzamlalo = (canvas.Children.OfType<TextBlock>()).First();
+            foreach (var child in canvas.Children.OfType<Image>())
+            {
+                if (child.Tag.ToString() == "2")
+                {
+                    var coinLeft = Canvas.GetLeft(child);
+                    var coinTop = Canvas.GetTop(child);
+                    var coinRect = new Rect(coinLeft, coinTop, child.Width, child.Height);
+
+                    var playerRect = new Rect(X, Y, W, H);
+
+                    if (coinRect.IntersectsWith(playerRect))
+                    {
+                        canvas.Children.Remove(child);
+                        int currentCoinCount = int.Parse(ErmeSzamlalo.Text);
+                        ErmeSzamlalo.Text = (currentCoinCount + 1).ToString();
+                        break;
+                    }
+                }
+            }
+        }
+
 
         public bool IsTouchingPortal(char portalType)
         {
