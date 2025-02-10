@@ -24,8 +24,12 @@ namespace AlienBlast
         {
             InitializeComponent();
 
+
+
+
+
             var path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "kezdő.jpg");
-            canvas.Background = new ImageBrush
+            this.Background = new ImageBrush
             (
                 new BitmapImage(new Uri(path))
             );

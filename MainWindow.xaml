@@ -20,7 +20,7 @@
                FontSize="64" 
                FontWeight="Bold"
                Foreground="Black"
-               Margin="5,0,0,0" Width="80"/>
+               Margin="5,0,0,0" Width="100"/>
         </StackPanel>
 
     </Canvas>

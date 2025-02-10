@@ -44,7 +44,7 @@ namespace AlienBlast
                         Canvas.SetLeft(négyzet, x * 96); // x koordináta
                         Canvas.SetTop(négyzet, y * 96); // y koordináta
                         canvas.Children.Add(négyzet);
-                    }
+                    }                    
                     if (pályaSor[y][x] == '3')
                     {
                         var portal = new System.Windows.Shapes.Rectangle
