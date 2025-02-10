@@ -40,6 +40,7 @@ namespace AlienBlast
                             Width = 96,
                             Height = 96,
                             Fill = System.Windows.Media.Brushes.Gray,
+                            Tag = '1'
                         };
 
                         Canvas.SetLeft(négyzet, x * 96); // x koordináta

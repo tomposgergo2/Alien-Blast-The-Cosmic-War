@@ -38,5 +38,17 @@ namespace AlienBlast
             játékAblak.Show(); 
             this.Close(); 
         }
+
+        private void Folytatas_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow játékAblak = new MainWindow();
+            játékAblak.jelenlegiPályaIndex = 1;
+            játékAblak.Show();
+            this.Close();
+        }
+        private void Kilepes_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
