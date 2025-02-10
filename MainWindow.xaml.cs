@@ -26,7 +26,7 @@ namespace AlienBlast
         double playerX;
         double playerY;
         Pálya pálya;
-        int jelenlegiPályaIndex = 0;
+        public int jelenlegiPályaIndex = 0;
 
         public MainWindow()
         {
@@ -79,6 +79,16 @@ namespace AlienBlast
             Loaded += (sender, e) =>
             {
                 GenerálPályát();
+            };
+
+            KeyDown += (sender, e) =>
+            {
+                if (e.Key == Key.Escape)
+                {
+                    StartWindow menu = new StartWindow();
+                    menu.Show();
+                    this.Close();
+                }
             };
         }
 
@@ -164,8 +174,11 @@ namespace AlienBlast
         {
             if (Keyboard.IsKeyDown(Key.Escape))
             {
-                Close();
             }
+        }
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            
         }
     }
 }
