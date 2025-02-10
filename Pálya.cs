@@ -26,7 +26,8 @@ namespace AlienBlast
             if (pályaindex < 0 || pályaindex >= Pályák.Count)
                 return; 
 
-            var pályaSor = Pályák[pályaindex]; 
+            var pályaSor = Pályák[pályaindex];
+
 
             for (int y = 0; y < pályaSor.Length; y++)
             {
@@ -93,7 +94,6 @@ namespace AlienBlast
                         Canvas.SetTop(érme, y * 96);
                         canvas.Children.Add(érme);
                     }
-
                 }
             }
         }
