@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AlienBlast"
         mc:Ignorable="d"
-        Title="StartWindow" Height="450" Width="800">
+        Title="StartWindow" WindowState="Maximized" WindowStyle="none" Height="1080px" Width="1920px">
     <Canvas Name="canvas">
-        <Button Content="Játék" Width="150" Height="50" FontSize="20"
+        <Label Content="Alien Blast: The Cosmic War" FontSize="100"/>
+        <Button Content="Új játék" Width="300" Height="100" FontSize="40"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                Click="KezdesGomb_Click"/>
+                Click="KezdesGomb_Click" Canvas.Top="100"/>
+        <Button Content="Folytatás" Width="300" Height="100" FontSize="40" Canvas.Top="200" Click="Folytatas_Click"/>
+        <Button Content="Kilépés" Width="300" Height="100" FontSize="40" Canvas.Top="300" Click="Kilepes_Click"/>
 
     </Canvas>
 </Window>

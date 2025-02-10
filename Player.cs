@@ -306,9 +306,7 @@ namespace AlienBlast
 
                 foreach (var rectangle in canvas.Children)
                 {
-                    var rect = (System.Windows.UIElement)rectangle;
-                    var rect2 = (FrameworkElement)rectangle;
-                    if (rect != player && rect2.Name != "Portal")
+                    if (rectangle is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == '1')
                     {
                         if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && Canvas.GetTop(rect) - 1 == plyrY)
                         {
@@ -332,9 +330,7 @@ namespace AlienBlast
 
                 foreach (var rectangle in canvas.Children)
                 {
-                    var rect = (System.Windows.UIElement)rectangle;
-                    var rect2 = (FrameworkElement)rectangle;
-                    if (rect != player && rect2.Name != "Portal")
+                    if (rectangle is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == '1')
                     {
                         if (Canvas.GetTop(rect) <= plyrY2 && Canvas.GetTop(rect) + 96 >= plyrY1 && Canvas.GetLeft(rect) + 97 == plyrX1)
                         {
@@ -356,9 +352,7 @@ namespace AlienBlast
 
                 foreach (var rectangle in canvas.Children)
                 {
-                    var rect = (System.Windows.UIElement)rectangle;
-                    var rect2 = (FrameworkElement)rectangle;
-                    if (rect != player && rect2.Name != "Portal")
+                    if (rectangle is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == '1')
                     {
                         if (Canvas.GetLeft(rect) - 1 == plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 > plyrY - H))
                         {
@@ -380,9 +374,7 @@ namespace AlienBlast
 
                 foreach (var rectangle in canvas.Children)
                 {
-                    var rect = (System.Windows.UIElement)rectangle;
-                    var rect2 = (FrameworkElement)rectangle;
-                    if (rect != player && rect2.Name != "Portal")
+                    if (rectangle is System.Windows.Shapes.Rectangle rect && rect.Tag is char tag && tag == '1')
                     {
                         if (Canvas.GetLeft(rect) + 96 >= plyrX1 && Canvas.GetLeft(rect) <= plyrX2 && (Canvas.GetTop(rect) <= plyrY && Canvas.GetTop(rect) + 96 >= plyrY))
                         {
