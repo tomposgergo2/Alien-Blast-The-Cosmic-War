@@ -25,6 +25,7 @@ namespace AlienBlast
         private double Velocity { get; set; }
         private double G { get; set; } = 1;
         private double Jumping { get; set; } = -1;
+        public int Money { get; set; }
         private Canvas canvas { get; set; }
         private System.Windows.Shapes.Rectangle player { get; set; }
         private string Dir { get; set; } = "R";
@@ -67,7 +68,7 @@ namespace AlienBlast
             }
         }
 
-        public Player(double x, double y, Canvas canvas, double v = 10, double w = 90, double h = 90)
+        public Player(double x, double y, int money, Canvas canvas, double v = 10, double w = 90, double h = 90)
         {
             X = x;
             Y = y;
@@ -76,6 +77,8 @@ namespace AlienBlast
             player = DrawPlayer(X, Y);
             W = w;
             H = h;
+            Money = money;
+            ((canvas.Children.OfType<StackPanel>()).First().Children.OfType<TextBlock>()).First().Text = Money.ToString();
         }
 
         private System.Windows.Shapes.Rectangle DrawPlayer(double x, double y)
@@ -390,7 +393,7 @@ namespace AlienBlast
 
         public void CheckForCoinCollection()
         {
-            TextBlock ErmeSzamlalo = (canvas.Children.OfType<TextBlock>()).First();
+            TextBlock ErmeSzamlalo = ((canvas.Children.OfType<StackPanel>()).First().Children.OfType<TextBlock>()).First();
             foreach (var child in canvas.Children.OfType<Image>())
             {
                 if (child.Tag.ToString() == "2")
@@ -404,9 +407,11 @@ namespace AlienBlast
                     if (coinRect.IntersectsWith(playerRect))
                     {
                         canvas.Children.Remove(child);
-                        int currentCoinCount = int.Parse(ErmeSzamlalo.Text);
-                        ErmeSzamlalo.Text = (currentCoinCount + 1).ToString();
-                        break;
+                        //int currentCoinCount = int.Parse(ErmeSzamlalo.Text);
+                        //ErmeSzamlalo.Text = (currentCoinCount + 1).ToString();
+                        Money++;
+                        ErmeSzamlalo.Text = Money.ToString();
+                        return;
                     }
                 }
             }
