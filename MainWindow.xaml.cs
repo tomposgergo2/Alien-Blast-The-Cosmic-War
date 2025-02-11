@@ -27,6 +27,7 @@ namespace AlienBlast
         double playerY;
         Pálya pálya;
         public int jelenlegiPályaIndex = 0;
+        public int money = 0;
 
         public MainWindow()
         {
@@ -67,7 +68,7 @@ namespace AlienBlast
                 player.Gravity();
                 player.MovePlayer();
                 EllenőrizPortált();
-                Exit();
+                player.CheckForCoinCollection();
                 Restart();
                 //CheckForCoinCollection();
 
@@ -85,6 +86,8 @@ namespace AlienBlast
                 if (e.Key == Key.Escape)
                 {
                     StartWindow menu = new StartWindow();
+                    menu.Level = jelenlegiPályaIndex;
+                    menu.Money = player.Money;
                     menu.Show();
                     this.Close();
                 }
@@ -112,7 +115,7 @@ namespace AlienBlast
                 player.Kill();
             }
 
-            player = new Player(playerX, playerY, canvas);
+            player = new Player(playerX, playerY, money, canvas);
         }
 
 
@@ -142,7 +145,7 @@ namespace AlienBlast
                         player.Kill();
                         playerX = x * 96;
                         playerY = y * 96;
-                        player = new Player(playerX, playerY, canvas); // Újra létrehozzuk ott
+                        player = new Player(playerX, playerY, money, canvas); // Újra létrehozzuk ott
                         return;
                     }
                 }
@@ -156,7 +159,7 @@ namespace AlienBlast
             if (Keyboard.IsKeyDown(Key.R))
             {
                 player.Kill();
-                player = new Player(playerX, playerY, canvas);
+                player = new Player(playerX, playerY, money, canvas);
             }
         }
 
@@ -165,19 +168,8 @@ namespace AlienBlast
             if (player.Y > 1080)
             {
                 player.Kill();
-                player = new Player(playerX, playerY, canvas);
+                player = new Player(playerX, playerY, money, canvas);
             }
-        }
-
-        private void Exit()
-        {
-            if (Keyboard.IsKeyDown(Key.Escape))
-            {
-            }
-        }
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            
         }
     }
 }

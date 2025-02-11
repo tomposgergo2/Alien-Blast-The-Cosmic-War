@@ -20,13 +20,11 @@ namespace AlienBlast
     /// </summary>
     public partial class StartWindow : Window
     {
+        public int Level;
+        public int Money;
         public StartWindow()
         {
             InitializeComponent();
-
-
-
-
 
             var path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "kezdő.jpg");
             this.Background = new ImageBrush
@@ -34,6 +32,7 @@ namespace AlienBlast
                 new BitmapImage(new Uri(path))
             );
 
+            LoadData();
         }
 
         private void KezdesGomb_Click(object sender, RoutedEventArgs e)
@@ -46,13 +45,26 @@ namespace AlienBlast
         private void Folytatas_Click(object sender, RoutedEventArgs e)
         {
             MainWindow játékAblak = new MainWindow();
-            játékAblak.jelenlegiPályaIndex = 1;
+            játékAblak.jelenlegiPályaIndex = Level;
+            játékAblak.money = Money;
             játékAblak.Show();
             this.Close();
         }
         private void Kilepes_Click(object sender, RoutedEventArgs e)
         {
+            SaveData(Level, Money);
             this.Close();
+        }
+
+        private void LoadData()
+        {
+            var datas = File.ReadAllLines("Save.txt").Skip(1).First().Trim().Split(";");
+            Level = int.Parse(datas[0]);
+            Money = int.Parse(datas[1]);
+        }
+        private void SaveData(int Level, int Money)
+        {
+            File.WriteAllLines("Save.txt", ["level;money", $"{Level};{Money}"]);
         }
     }
 }
