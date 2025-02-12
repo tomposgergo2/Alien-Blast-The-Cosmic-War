@@ -113,6 +113,21 @@ namespace AlienBlast
                             canvas.Children.Add(tüske);
                         
                     }
+                    if (pályaSor[y][x] == '7')
+                    {
+                        var tüske2 = new Image()
+                        {
+                            Width = 96,
+                            Height = 96,
+                            Source = new BitmapImage(new Uri("randomrobbanás.png", UriKind.Relative)),
+                            Tag = '7',
+                            Name = "tüske2"
+                        };
+                        Canvas.SetLeft(tüske2, x * 96);
+                        Canvas.SetTop(tüske2, y * 96);
+                        canvas.Children.Add(tüske2);
+
+                    }
                     if (pályaSor[y][x] == '5')
                     {
                         var enemyZone = new Image

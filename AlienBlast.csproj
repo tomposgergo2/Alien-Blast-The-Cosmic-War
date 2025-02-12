@@ -9,11 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="randomrobbanás.jpg" />
+    <None Remove="randomrobbanás.png" />
     <None Remove="tüske.png" />
     <None Remove="érme.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="randomrobbanás.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="tüske.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
