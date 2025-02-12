@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Shapes;
+using System.Windows.Media;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace AlienBlast
@@ -95,11 +98,40 @@ namespace AlienBlast
                             canvas.Children.Add(érme);
                         }
                     }
-
+                    if (pályaSor[y][x] == '5')
+                    {
+                        var enemyZone = new Rectangle
+                        {
+                            Width = 96,
+                            Height = 96,
+                            Fill = Brushes.Transparent,
+                            Tag = '5'
+                        };
+                        Canvas.SetLeft(enemyZone, x * 96);
+                        Canvas.SetTop(enemyZone, y * 96);
+                        canvas.Children.Add(enemyZone);
+                    }
                 }
             }
         }
 
+        public List<(double, double)> GetEnemyPath(int pályaIndex)
+        {
+            List<(double, double)> path = new List<(double, double)>();
+            if (pályaIndex < 0 || pályaIndex >= Pályák.Count) return path;
+
+            for (int y = 0; y < Pályák[pályaIndex].Length; y++)
+            {
+                for (int x = 0; x < Pályák[pályaIndex][y].Length; x++)
+                {
+                    if (Pályák[pályaIndex][y][x] == '5') // Ha 5-ös számot találunk
+                    {
+                        path.Add((x * 96, y * 96)); // Koordináták mentése
+                    }
+                }
+            }
+            return path;
+        }
 
 
         private void Beolvasás()
