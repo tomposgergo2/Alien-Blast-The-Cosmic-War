@@ -28,6 +28,7 @@ namespace AlienBlast
         Pálya pálya;
         public int jelenlegiPályaIndex = 0;
         public int money = 0;
+        private Enemy enemy;
 
         public MainWindow()
         {
@@ -116,6 +117,8 @@ namespace AlienBlast
             }
 
             player = new Player(playerX, playerY, money, canvas);
+            List<(double, double)> enemyPath = pálya.GetEnemyPath(jelenlegiPályaIndex);
+            enemy = new Enemy(canvas, enemyPath);
         }
 
 
