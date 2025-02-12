@@ -27,6 +27,7 @@ namespace AlienBlast
         private double Velocity { get; set; }
         private double G { get; set; } = 1;
         private double Jumping { get; set; } = -1;
+        private int BugProtector { get; set; } = 0;
         public List<int> Collected { get; set; }
         private Canvas canvas { get; set; }
         private System.Windows.Shapes.Rectangle player { get; set; }
@@ -107,9 +108,19 @@ namespace AlienBlast
                 var collision = CollisionCheck("B");
                 if (collision != null && (bool)collision)
                 {
-                    Canvas.SetTop(player, Y - 5);
-                    Y = Canvas.GetTop(player);
-                    G = 1;
+                    if (BugProtector < 30)
+                    {
+                        Canvas.SetTop(player, Y - 5);
+                        Y = Canvas.GetTop(player);
+                        G = 1;
+                        BugProtector++;
+                    }
+                    else
+                    {
+                        MessageBox.Show("A csalás nem szép dolog!", "CSALÓ!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        BugProtector = 0;
+                        Y = 2000;
+                    }
                 }
                 else if (collision != null && !(bool)collision)
                 {
