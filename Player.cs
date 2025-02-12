@@ -27,7 +27,8 @@ namespace AlienBlast
         private double Velocity { get; set; }
         private double G { get; set; } = 1;
         private double Jumping { get; set; } = -1;
-        public int Money { get; set; }
+        private int BugProtector { get; set; } = 0;
+        public List<int> Collected { get; set; }
         private Canvas canvas { get; set; }
         private System.Windows.Shapes.Rectangle player { get; set; }
         private string Dir { get; set; } = "R";
@@ -70,7 +71,7 @@ namespace AlienBlast
             }
         }
 
-        public Player(double x, double y, int money, Canvas canvas, double v = 10, double w = 90, double h = 90)
+        public Player(double x, double y, List<int> Collected, Canvas canvas, double v = 10, double w = 90, double h = 90)
         {
             X = x;
             Y = y;
@@ -79,8 +80,8 @@ namespace AlienBlast
             player = DrawPlayer(X, Y);
             W = w;
             H = h;
-            Money = money;
-            ((canvas.Children.OfType<StackPanel>()).First().Children.OfType<TextBlock>()).First().Text = Money.ToString();
+            this.Collected = Collected;
+            ((canvas.Children.OfType<StackPanel>()).First().Children.OfType<TextBlock>()).First().Text = Collected.Sum().ToString();
         }
 
         private System.Windows.Shapes.Rectangle DrawPlayer(double x, double y)
@@ -107,9 +108,19 @@ namespace AlienBlast
                 var collision = CollisionCheck("B");
                 if (collision != null && (bool)collision)
                 {
-                    Canvas.SetTop(player, Y - 5);
-                    Y = Canvas.GetTop(player);
-                    G = 1;
+                    if (BugProtector < 30)
+                    {
+                        Canvas.SetTop(player, Y - 5);
+                        Y = Canvas.GetTop(player);
+                        G = 1;
+                        BugProtector++;
+                    }
+                    else
+                    {
+                        MessageBox.Show("A csalás nem szép dolog!", "CSALÓ!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        BugProtector = 0;
+                        Y = 2000;
+                    }
                 }
                 else if (collision != null && !(bool)collision)
                 {
@@ -121,17 +132,19 @@ namespace AlienBlast
                     }
                     Jumping = 0;
                 }
+                else
+                {
+                    BugProtector = 0;
+                }
             }
         }
 
         public void MovePlayer()
         {
             Animation("I");
-            if (Keyboard.IsKeyDown(Key.Left) || Keyboard.IsKeyDown(Key.A))
+            if (Keyboard.IsKeyDown(Key.Up) || Keyboard.IsKeyDown(Key.W))
             {
-                Animation("L");
-                MoveLeft();
-                Dir = "L";
+                Jump();
             }
             if (Keyboard.IsKeyDown(Key.Right) || Keyboard.IsKeyDown(Key.D))
             {
@@ -139,9 +152,11 @@ namespace AlienBlast
                 MoveRight();
                 Dir = "R";
             }
-            if (Keyboard.IsKeyDown(Key.Up) || Keyboard.IsKeyDown(Key.W))
+            else if (Keyboard.IsKeyDown(Key.Left) || Keyboard.IsKeyDown(Key.A))
             {
-                Jump();
+                Animation("L");
+                MoveLeft();
+                Dir = "L";
             }
         }
 
@@ -393,7 +408,7 @@ namespace AlienBlast
         }
 
 
-        public int CheckForCoinCollection()
+        public List<int> CheckForCoinCollection()
         {
             TextBlock ErmeSzamlalo = ((canvas.Children.OfType<StackPanel>()).First().Children.OfType<TextBlock>()).First();
             foreach (var child in canvas.Children.OfType<Image>())
@@ -411,14 +426,14 @@ namespace AlienBlast
                         canvas.Children.Remove(child);
                         //int currentCoinCount = int.Parse(ErmeSzamlalo.Text);
                         //ErmeSzamlalo.Text = (currentCoinCount + 1).ToString();
-                        Money++;
-                        ErmeSzamlalo.Text = Money.ToString();
-                        return Money;
+                        Collected.Add(1);
+                        ErmeSzamlalo.Text = Collected.Sum().ToString();
+                        return Collected;
                     }
                 }
             }
 
-            return Money;
+            return Collected;
         }
         public System.Windows.Shapes.Rectangle GetRectangle()
         {
@@ -464,7 +479,7 @@ namespace AlienBlast
                                 Kill();
                                 X = X * 96;
                                 Y = Y * 96;
-                                Player player = new Player(X, Y, Money, canvas);
+                                Player player = new Player(X, Y, Collected, canvas);
                             });
                     }
                     break;

@@ -20,8 +20,9 @@ namespace AlienBlast
     /// </summary>
     public partial class StartWindow : Window
     {
-        public int Level;
-        public int Money;
+        public bool HasSave;
+        public int Level = -1;
+        public List<int> Collected = new List<int>();
         public StartWindow()
         {
             InitializeComponent();
@@ -32,12 +33,24 @@ namespace AlienBlast
                 new BitmapImage(new Uri(path))
             );
 
-            LoadData();
+            HasSave = LoadData();
+            if (!HasSave)
+            {
+                btn_continue.Foreground = Brushes.DarkCyan;
+                btn_continue.Background = Brushes.Black;
+                btn_continue.BorderBrush = Brushes.DarkCyan;
+            }
+            else
+            {
+                btn_continue.Click += Folytatas_Click;
+            }
         }
 
         private void KezdesGomb_Click(object sender, RoutedEventArgs e)
         {
+            SaveData(0, []);
             MainWindow játékAblak = new MainWindow();
+            játékAblak.Collected = new List<int>();
             játékAblak.Show(); 
             this.Close(); 
         }
@@ -46,25 +59,34 @@ namespace AlienBlast
         {
             MainWindow játékAblak = new MainWindow();
             játékAblak.jelenlegiPályaIndex = Level;
-            játékAblak.money = Money;
+            játékAblak.Collected = Collected;
             játékAblak.Show();
             this.Close();
         }
         private void Kilepes_Click(object sender, RoutedEventArgs e)
         {
-            SaveData(Level, Money);
+            SaveData(Level, Collected);
             this.Close();
         }
 
-        private void LoadData()
+        private bool LoadData()
         {
-            var datas = File.ReadAllLines("Save.txt").Skip(1).First().Trim().Split(";");
+            var rows = File.ReadAllLines("Save.txt");
+            if (rows.Count() == 0)
+            {
+                return false;
+            }
+            var datas = rows.Skip(1).First().Trim().Split(";");
             Level = int.Parse(datas[0]);
-            Money = int.Parse(datas[1]);
+            Collected = datas[1].ToList().Select(i => i - '0').ToList();
+            return true;
         }
-        private void SaveData(int Level, int Money)
+        private void SaveData(int Level, List<int>Collected)
         {
-            File.WriteAllLines("Save.txt", ["level;money", $"{Level};{Money}"]);
+            if (HasSave || Level >= 0)
+            {
+                File.WriteAllLines("Save.txt", ["level;money;collected", $"{Level};{string.Join("", Collected.ToArray())}"]);
+            }
         }
     }
 }
