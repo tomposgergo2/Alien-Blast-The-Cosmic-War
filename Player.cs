@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+
 
 namespace AlienBlast
 {
@@ -418,6 +420,58 @@ namespace AlienBlast
 
             return Money;
         }
+        public System.Windows.Shapes.Rectangle GetRectangle()
+        {
+            return player;
+        }
+        private bool isRespawning = false;
+
+
+        public void CheckForEnemyCollision(List<Enemy> enemies, int currentLevel, HashSet<int> killedEnemies)
+        {
+            if (isRespawning) return;
+
+            foreach (var enemy in enemies)
+            {
+                System.Windows.Shapes.Rectangle enemyRect = enemy.GetRectangle();
+
+                if (enemyRect == null) // 🔥 Ha az ellenség már törölve lett, ne folytassuk
+                {
+                    continue;
+                }
+
+                double enemyX = Canvas.GetLeft(enemyRect);
+                double enemyY = Canvas.GetTop(enemyRect);
+                double enemyW = enemyRect.Width;
+                double enemyH = enemyRect.Height;
+
+                Rect playerRect = new Rect(X, Y, W, H);
+                Rect enemyBounds = new Rect(enemyX, enemyY, enemyW, enemyH);
+
+                if (playerRect.IntersectsWith(enemyBounds))
+                {
+                    if ((Y + H - 10) <= enemyY) // Ha a Player az Enemy tetején van (finomhangolt)
+                    {
+                        enemy.Die(currentLevel, killedEnemies);
+                        Jumping = 15; // A játékos visszapattan
+                    }
+                    else
+                    {
+                        isRespawning = true;
+                        Kill();
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                Kill();
+                                X = X * 96;
+                                Y = Y * 96;
+                                Player player = new Player(X, Y, Money, canvas);
+                            });
+                    }
+                    break;
+                }
+            }
+        }
+
 
 
         public bool IsTouchingPortal(char portalType)
