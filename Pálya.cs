@@ -21,7 +21,7 @@ namespace AlienBlast
             this.canvas = canvas;
         }
 
-        public void Generálás(int pályaindex)
+        public void Generálás(int pályaindex, int money)
         {
             if (pályaindex < 0 || pályaindex >= Pályák.Count)
                 return; 
@@ -80,20 +80,22 @@ namespace AlienBlast
                     }
                     if (pályaSor[y][x] == '2')
                     {
-                        var érme = new Image()
+                        if (money < pályaindex + 1)
                         {
-                            Width = 96,
-                            Height = 96,
-                            Source = new BitmapImage(new Uri("érme.png", UriKind.Relative)),
- //már megint nem jó valami a képnél    zalán már az érme is megjelenik
-                            Tag = '2',
-                            Name = "Coin"
-                        };
-
-                        Canvas.SetLeft(érme, x * 96);
-                        Canvas.SetTop(érme, y * 96);
-                        canvas.Children.Add(érme);
+                            var érme = new Image()
+                            {
+                                Width = 96,
+                                Height = 96,
+                                Source = new BitmapImage(new Uri("érme.png", UriKind.Relative)),
+                                Tag = '2',
+                                Name = "Coin"
+                            };
+                            Canvas.SetLeft(érme, x * 96);
+                            Canvas.SetTop(érme, y * 96);
+                            canvas.Children.Add(érme);
+                        }
                     }
+
                 }
             }
         }

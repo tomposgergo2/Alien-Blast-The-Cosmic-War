@@ -391,7 +391,7 @@ namespace AlienBlast
         }
 
 
-        public void CheckForCoinCollection()
+        public int CheckForCoinCollection()
         {
             TextBlock ErmeSzamlalo = ((canvas.Children.OfType<StackPanel>()).First().Children.OfType<TextBlock>()).First();
             foreach (var child in canvas.Children.OfType<Image>())
@@ -411,10 +411,12 @@ namespace AlienBlast
                         //ErmeSzamlalo.Text = (currentCoinCount + 1).ToString();
                         Money++;
                         ErmeSzamlalo.Text = Money.ToString();
-                        return;
+                        return Money;
                     }
                 }
             }
+
+            return Money;
         }
 
 

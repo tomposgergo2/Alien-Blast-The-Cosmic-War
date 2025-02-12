@@ -68,7 +68,7 @@ namespace AlienBlast
                 player.Gravity();
                 player.MovePlayer();
                 EllenőrizPortált();
-                player.CheckForCoinCollection();
+                money = player.CheckForCoinCollection();
                 Restart();
                 //CheckForCoinCollection();
 
@@ -102,8 +102,9 @@ namespace AlienBlast
             }
 
             canvas.Children.Clear();
-            pálya.Generálás(jelenlegiPályaIndex);
+            pálya.Generálás(jelenlegiPályaIndex, money);
             canvas.Children.Add(ErmeSzamlalo.Parent as UIElement);
+            ErmeSzamlalo.Text = money.ToString();
 
 
             // Játékos kezdőpozíciót változtassuk meg
