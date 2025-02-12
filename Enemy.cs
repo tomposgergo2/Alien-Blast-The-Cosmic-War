@@ -17,6 +17,12 @@ namespace AlienBlast
         private int direction = 1; // 1 előre, -1 vissza
         private double speed = 4;
         private DispatcherTimer timer;
+        public void Die(int currentLevel, HashSet<int> killedEnemies)
+        {
+            killedEnemies.Add(currentLevel); // Elmentjük, hogy ezen a pályán meghalt az ellenség
+            canvas.Children.Remove(enemy); // Eltávolítjuk az ellenséget a pályáról
+            enemy = null; // Null-ra állítjuk, hogy ne mozduljon tovább
+        }
 
         public Enemy(Canvas canvas, List<(double, double)> path)
         {
@@ -37,16 +43,19 @@ namespace AlienBlast
             Canvas.SetLeft(enemy, path[0].Item1);
             Canvas.SetTop(enemy, path[0].Item2);
             canvas.Children.Add(enemy);
-
-            //timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(30) };
-            //timer.Tick += Move;
-            //timer.Start();
         }
+
+        // VISSZAADJA AZ ELLENSÉGET MINT RECTANGLE
+        public Rectangle GetRectangle()
+        {
+            return enemy;
+        }
+
 
         public void Move(object sender, EventArgs e)
         {
-            if (path.Count == 0)
-                return;
+            if (enemy == null || path.Count == 0)
+                return; // Ha az enemy meghalt, ne mozogjon tovább
 
             double targetX = path[currentIndex].Item1;
             double currentX = Canvas.GetLeft(enemy);
@@ -65,5 +74,6 @@ namespace AlienBlast
                 Canvas.SetLeft(enemy, currentX + (direction * speed));
             }
         }
+
     }
 }

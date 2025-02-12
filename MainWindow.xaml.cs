@@ -68,7 +68,7 @@ namespace AlienBlast
                 player.MoveUp();
                 player.Gravity();
                 player.MovePlayer();
-
+                player.CheckForEnemyCollision(new List<Enemy> { enemy }, jelenlegiPályaIndex, killedEnemies);
                 EllenőrizPortált();
 
                 money = player.CheckForCoinCollection();
@@ -99,6 +99,24 @@ namespace AlienBlast
             };
         }
 
+        private HashSet<int> killedEnemies = new HashSet<int>(); // Meghalt ellenségek listája
+        private (double, double) FindSpawnPoint()
+        {
+            for (int y = 0; y < pálya.Pályák[jelenlegiPályaIndex].Length; y++)
+            {
+                for (int x = 0; x < pálya.Pályák[jelenlegiPályaIndex][y].Length; x++)
+                {
+                    if (pálya.Pályák[jelenlegiPályaIndex][y][x] == '4') // Megkeressük a 4-est
+                    {
+                        return (x * 96, y * 96); // A játékos a 4-es szám helyére kerül
+                    }
+                }
+            }
+
+            // Ha nem találunk 4-est, alapértelmezett pozíciót adunk vissza
+            return (10, 600);
+        }
+
         private void GenerálPályát()
         {
             if (pálya == null)
@@ -111,20 +129,30 @@ namespace AlienBlast
             canvas.Children.Add(ErmeSzamlalo.Parent as UIElement);
             ErmeSzamlalo.Text = money.ToString();
 
-
-            // Játékos kezdőpozíciót változtassuk meg
-            playerX = 10; // Korábban 100 volt
-            playerY = 600;
+            // Megkeressük a 4-es szám pozícióját
+            (double spawnX, double spawnY) = FindSpawnPoint();
 
             if (player != null)
             {
                 player.Kill();
             }
 
+            // A játékos a 4-es pozíciójára kerül
+            playerX = spawnX;
+            playerY = spawnY;
             player = new Player(playerX, playerY, money, canvas);
-            List<(double, double)> enemyPath = pálya.GetEnemyPath(jelenlegiPályaIndex);
-            enemy = new Enemy(canvas, enemyPath);
+
+            if (killedEnemies.Contains(jelenlegiPályaIndex))
+            {
+                enemy = null; // Ha már megölték, ne hozzunk létre újat
+            }
+            else
+            {
+                List<(double, double)> enemyPath = pálya.GetEnemyPath(jelenlegiPályaIndex);
+                enemy = new Enemy(canvas, enemyPath);
+            }
         }
+
 
 
         private void EllenőrizPortált()
