@@ -58,20 +58,24 @@ namespace AlienBlast
 
 
 
-            timer.Interval = TimeSpan.FromMilliseconds(10);
+            timer.Interval = TimeSpan.FromMilliseconds(15);
             timer.Tick += (sender, e) =>
             {
                 timer.Stop();
 
-                //enemy movement
                 Fallen();
+
                 player.MoveUp();
                 player.Gravity();
                 player.MovePlayer();
+
                 EllenőrizPortált();
+
                 money = player.CheckForCoinCollection();
+
                 Restart();
-                //CheckForCoinCollection();
+
+                enemy.Move(sender, e);
 
                 timer.Start();
             };

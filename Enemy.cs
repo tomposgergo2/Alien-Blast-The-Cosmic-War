@@ -38,12 +38,12 @@ namespace AlienBlast
             Canvas.SetTop(enemy, path[0].Item2);
             canvas.Children.Add(enemy);
 
-            timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(30) };
-            timer.Tick += Move;
-            timer.Start();
+            //timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(30) };
+            //timer.Tick += Move;
+            //timer.Start();
         }
 
-        private void Move(object sender, EventArgs e)
+        public void Move(object sender, EventArgs e)
         {
             if (path.Count == 0)
                 return;
