@@ -132,17 +132,19 @@ namespace AlienBlast
                     }
                     Jumping = 0;
                 }
+                else
+                {
+                    BugProtector = 0;
+                }
             }
         }
 
         public void MovePlayer()
         {
             Animation("I");
-            if (Keyboard.IsKeyDown(Key.Left) || Keyboard.IsKeyDown(Key.A))
+            if (Keyboard.IsKeyDown(Key.Up) || Keyboard.IsKeyDown(Key.W))
             {
-                Animation("L");
-                MoveLeft();
-                Dir = "L";
+                Jump();
             }
             if (Keyboard.IsKeyDown(Key.Right) || Keyboard.IsKeyDown(Key.D))
             {
@@ -150,9 +152,11 @@ namespace AlienBlast
                 MoveRight();
                 Dir = "R";
             }
-            if (Keyboard.IsKeyDown(Key.Up) || Keyboard.IsKeyDown(Key.W))
+            else if (Keyboard.IsKeyDown(Key.Left) || Keyboard.IsKeyDown(Key.A))
             {
-                Jump();
+                Animation("L");
+                MoveLeft();
+                Dir = "L";
             }
         }
 
