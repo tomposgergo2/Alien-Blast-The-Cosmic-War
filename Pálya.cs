@@ -31,6 +31,8 @@ namespace AlienBlast
 
             var pályaSor = Pályák[pályaindex];
 
+            List<(int, int)> portal3Positions = new List<(int, int)>(); 
+            List<(int, int)> portal4Positions = new List<(int, int)>();
 
             for (int y = 0; y < pályaSor.Length; y++)
             {
@@ -46,40 +48,17 @@ namespace AlienBlast
                             Tag = '1'
                         };
 
-                        Canvas.SetLeft(négyzet, x * 96); // x koordináta
-                        Canvas.SetTop(négyzet, y * 96); // y koordináta
+                        Canvas.SetLeft(négyzet, x * 96); 
+                        Canvas.SetTop(négyzet, y * 96); 
                         canvas.Children.Add(négyzet);
-                    }                    
+                    }
                     if (pályaSor[y][x] == '3')
                     {
-                        var portal = new System.Windows.Shapes.Rectangle
-                        {
-                            Width = 96,
-                            Height = 96,
-                            Fill = System.Windows.Media.Brushes.Blue,
-                            Tag = '3',
-                            Name = "Portal"
-                        };
-
-                        Canvas.SetLeft(portal, x * 96);
-                        Canvas.SetTop(portal, y * 96);
-                        canvas.Children.Add(portal);
+                        portal3Positions.Add((x, y));
                     }
-
                     if (pályaSor[y][x] == '4')
                     {
-                        var portal = new System.Windows.Shapes.Rectangle
-                        {
-                            Width = 96,
-                            Height = 96,
-                            Fill = System.Windows.Media.Brushes.Pink,
-                            Tag = '4',
-                            Name = "Portal"
-                        };
-
-                        Canvas.SetLeft(portal, x * 96);
-                        Canvas.SetTop(portal, y * 96);
-                        canvas.Children.Add(portal);
+                        portal4Positions.Add((x, y));
                     }
                     if (pályaSor[y][x] == '2')
                     {
@@ -144,6 +123,64 @@ namespace AlienBlast
                     }
                 }
             }
+            if (portal3Positions.Count > 0)
+            {
+                int minX3 = portal3Positions.Min(p => p.Item1); 
+                int maxX3 = portal3Positions.Max(p => p.Item1); 
+                int minY3 = portal3Positions.Min(p => p.Item2); 
+                int maxY3 = portal3Positions.Max(p => p.Item2); 
+
+                int width3 = (maxX3 - minX3 + 1) * 96; 
+                int height3 = (maxY3 - minY3 + 1) * 96;
+
+                
+                if (width3 > 0 && height3 > 0)
+                {
+                    var portal3 = new System.Windows.Shapes.Rectangle
+                    {
+                        Width = width3,
+                        Height = height3,
+                        Fill = new System.Windows.Media.ImageBrush
+                        {
+                            ImageSource = new System.Windows.Media.Imaging.BitmapImage(new Uri("Portal.png", UriKind.Relative))
+                        },
+                        Tag = '3',
+                        Name = "Portal_3"
+                    };
+                    Canvas.SetLeft(portal3, minX3 * 96);
+                    Canvas.SetTop(portal3, minY3 * 96);
+                    canvas.Children.Add(portal3);
+                }
+            }
+
+
+            if (portal4Positions.Count > 0)
+            {
+                int minX4 = portal4Positions.Min(p => p.Item1); 
+                int maxX4 = portal4Positions.Max(p => p.Item1); 
+                int minY4 = portal4Positions.Min(p => p.Item2); 
+                int maxY4 = portal4Positions.Max(p => p.Item2); 
+
+                int width4 = (maxX4 - minX4 + 1) * 96; 
+                int height4 = (maxY4 - minY4 + 1) * 96; 
+
+                var portal4 = new System.Windows.Shapes.Rectangle
+                {
+                    Width = width4,
+                    Height = height4,
+                    Fill = new System.Windows.Media.ImageBrush
+                    {
+                        ImageSource = new System.Windows.Media.Imaging.BitmapImage(new Uri("Portal.png", UriKind.Relative))
+                    },
+                    Tag = '4',
+                    Name = "Portal_4"
+                };
+
+                Canvas.SetLeft(portal4, minX4 * 96);
+                Canvas.SetTop(portal4, minY4 * 96);
+                canvas.Children.Add(portal4);
+            }
+            
         }
 
         public List<(double, double)> GetEnemyPath(int pályaIndex)

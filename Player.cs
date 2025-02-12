@@ -435,7 +435,7 @@ namespace AlienBlast
             {
                 System.Windows.Shapes.Rectangle enemyRect = enemy.GetRectangle();
 
-                if (enemyRect == null) // 🔥 Ha az ellenség már törölve lett, ne folytassuk
+                if (enemyRect == null) 
                 {
                     continue;
                 }
@@ -450,10 +450,10 @@ namespace AlienBlast
 
                 if (playerRect.IntersectsWith(enemyBounds))
                 {
-                    if ((Y + H - 10) <= enemyY) // Ha a Player az Enemy tetején van (finomhangolt)
+                    if ((Y + H - 10) <= enemyY) 
                     {
                         enemy.Die(currentLevel, killedEnemies);
-                        Jumping = 15; // A játékos visszapattan
+                        Jumping = 15; 
                     }
                     else
                     {

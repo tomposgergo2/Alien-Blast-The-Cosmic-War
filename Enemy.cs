@@ -35,7 +35,7 @@ namespace AlienBlast
                 Height = 96,
                 Fill = new ImageBrush
                 {
-                    ImageSource = new BitmapImage(new Uri("enemy.png", UriKind.Relative))
+                    ImageSource = new BitmapImage(new Uri("Enemy.png", UriKind.Relative))
                 },
                 Tag = "Enemy"
             };
