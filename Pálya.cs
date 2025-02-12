@@ -98,6 +98,21 @@ namespace AlienBlast
                             canvas.Children.Add(érme);
                         }
                     }
+                    if (pályaSor[y][x] == '6')
+                    {                       
+                            var tüske = new Image()
+                            {
+                                Width = 96,
+                                Height = 96,
+                                Source = new BitmapImage(new Uri("tüske.png", UriKind.Relative)),
+                                Tag = '6',
+                                Name = "Tüske"
+                            };
+                            Canvas.SetLeft(tüske, x * 96);
+                            Canvas.SetTop(tüske, y * 96);
+                            canvas.Children.Add(tüske);
+                        
+                    }
                     if (pályaSor[y][x] == '5')
                     {
                         var enemyZone = new Rectangle
