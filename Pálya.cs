@@ -24,7 +24,7 @@ namespace AlienBlast
             this.canvas = canvas;
         }
 
-        public void Generálás(int pályaindex, int money)
+        public void Generálás(int pályaindex, List<int> Collected)
         {
             if (pályaindex < 0 || pályaindex >= Pályák.Count)
                 return; 
@@ -83,7 +83,7 @@ namespace AlienBlast
                     }
                     if (pályaSor[y][x] == '2')
                     {
-                        if (money < pályaindex + 1)
+                        if (Collected.Count() <= pályaindex || Collected[pályaindex] == 0)
                         {
                             var érme = new Image()
                             {

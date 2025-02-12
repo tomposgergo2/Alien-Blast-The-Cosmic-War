@@ -28,6 +28,7 @@ namespace AlienBlast
         Pálya pálya;
         public int jelenlegiPályaIndex = 0;
         public int money = 0;
+        public List<int> Collected = new List<int>();
         private Enemy enemy;
 
         public MainWindow()
@@ -71,7 +72,7 @@ namespace AlienBlast
                 player.CheckForEnemyCollision(new List<Enemy> { enemy }, jelenlegiPályaIndex, killedEnemies);
                 EllenőrizPortált();
 
-                money = player.CheckForCoinCollection();
+                Collected = player.CheckForCoinCollection();
 
                 Restart();
 
@@ -92,7 +93,7 @@ namespace AlienBlast
                 {
                     StartWindow menu = new StartWindow();
                     menu.Level = jelenlegiPályaIndex;
-                    menu.Money = player.Money;
+                    menu.Collected = player.Collected;
                     menu.Show();
                     this.Close();
                 }
@@ -125,9 +126,9 @@ namespace AlienBlast
             }
 
             canvas.Children.Clear();
-            pálya.Generálás(jelenlegiPályaIndex, money);
+            pálya.Generálás(jelenlegiPályaIndex, Collected);
             canvas.Children.Add(ErmeSzamlalo.Parent as UIElement);
-            ErmeSzamlalo.Text = money.ToString();
+            ErmeSzamlalo.Text = Collected.Sum().ToString();
 
             // Megkeressük a 4-es szám pozícióját
             (double spawnX, double spawnY) = FindSpawnPoint();
@@ -140,7 +141,7 @@ namespace AlienBlast
             // A játékos a 4-es pozíciójára kerül
             playerX = spawnX;
             playerY = spawnY;
-            player = new Player(playerX, playerY, money, canvas);
+            player = new Player(playerX, playerY, Collected, canvas);
 
             if (killedEnemies.Contains(jelenlegiPályaIndex))
             {
@@ -163,6 +164,11 @@ namespace AlienBlast
             {
                 if (jelenlegiPályaIndex + 1 < pálya.Pályák.Count)
                 {
+                    if (Collected.Count() == jelenlegiPályaIndex)
+                    {
+                        Collected.Add(0);
+                    }
+
                     jelenlegiPályaIndex++;
                     GenerálPályát();
                     TeleportToSpawn(); // A 4-es helyére rakjuk a játékost
@@ -181,7 +187,7 @@ namespace AlienBlast
                         player.Kill();
                         playerX = x * 96;
                         playerY = y * 96;
-                        player = new Player(playerX, playerY, money, canvas); // Újra létrehozzuk ott
+                        player = new Player(playerX, playerY, Collected, canvas); // Újra létrehozzuk ott
                         return;
                     }
                 }
@@ -195,7 +201,7 @@ namespace AlienBlast
             if (Keyboard.IsKeyDown(Key.R))
             {
                 player.Kill();
-                player = new Player(playerX, playerY, money, canvas);
+                player = new Player(playerX, playerY, Collected, canvas);
             }
         }
 
@@ -204,7 +210,7 @@ namespace AlienBlast
             if (player.Y > 1080)
             {
                 player.Kill();
-                player = new Player(playerX, playerY, money, canvas);
+                player = new Player(playerX, playerY, Collected, canvas);
             }
         }
     }

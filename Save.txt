@@ -1,2 +1,0 @@
-level;money
-0;0
