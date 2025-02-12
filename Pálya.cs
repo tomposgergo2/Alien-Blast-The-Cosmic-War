@@ -115,12 +115,13 @@ namespace AlienBlast
                     }
                     if (pályaSor[y][x] == '5')
                     {
-                        var enemyZone = new Rectangle
+                        var enemyZone = new Image
                         {
                             Width = 96,
                             Height = 96,
-                            Fill = Brushes.Transparent,
-                            Tag = '5'
+                            Source = new BitmapImage(new Uri("Enemy.png", UriKind.Relative)),
+                            Tag = '5',
+                            Name = "Enemy"
                         };
                         Canvas.SetLeft(enemyZone, x * 96);
                         Canvas.SetTop(enemyZone, y * 96);

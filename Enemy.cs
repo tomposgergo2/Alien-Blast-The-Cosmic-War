@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace AlienBlast
 {
@@ -12,67 +10,84 @@ namespace AlienBlast
     {
         private Rectangle enemy;
         private Canvas canvas;
-        private List<(double, double)> path;
-        private int currentIndex = 0;
-        private int direction = 1; // 1 előre, -1 vissza
-        private double speed = 4;
-        private DispatcherTimer timer;
-        public void Die(int currentLevel, HashSet<int> killedEnemies)
-        {
-            killedEnemies.Add(currentLevel); // Elmentjük, hogy ezen a pályán meghalt az ellenség
-            canvas.Children.Remove(enemy); // Eltávolítjuk az ellenséget a pályáról
-            enemy = null; // Null-ra állítjuk, hogy ne mozduljon tovább
-        }
+        private double X;
+        private double Y;
+        private double StartX;
+        private double EndX;
+        private double Speed = 3;
+        private bool MovingRight = true; // Jobbra indul alapból
 
         public Enemy(Canvas canvas, List<(double, double)> path)
         {
             this.canvas = canvas;
-            this.path = path;
 
             if (path.Count == 0)
                 return;
+
+            X = path[0].Item1;
+            Y = path[0].Item2;
+            StartX = X;
+            EndX = path[path.Count - 1].Item1; // Az ellenség az útvonal végéig mozog
 
             enemy = new Rectangle
             {
                 Width = 96,
                 Height = 96,
-                Fill = Brushes.Red,
+                Fill = new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri("enemy.png", UriKind.Relative))
+                },
                 Tag = "Enemy"
             };
 
-            Canvas.SetLeft(enemy, path[0].Item1);
-            Canvas.SetTop(enemy, path[0].Item2);
+            Canvas.SetLeft(enemy, X);
+            Canvas.SetTop(enemy, Y);
             canvas.Children.Add(enemy);
         }
 
-        // VISSZAADJA AZ ELLENSÉGET MINT RECTANGLE
+public void Move(object sender, EventArgs e)
+{
+    if (enemy == null) return;
+
+    if (MovingRight)
+    {
+        X += Speed;
+        if (X >= EndX) MovingRight = false;
+    }
+    else
+    {
+        X -= Speed;
+        if (X <= StartX) MovingRight = true;
+    }
+
+    Canvas.SetLeft(enemy, X);
+    UpdateSpriteDirection();
+}
+
+
+        private void UpdateSpriteDirection()
+        {
+            if (enemy.Fill is ImageBrush imageBrush)
+            {
+                TransformGroup transformGroup = new TransformGroup();
+                if (!MovingRight)
+                {
+                    transformGroup.Children.Add(new ScaleTransform(-1, 1, 48, 48)); // Tükrözés balra
+                }
+                imageBrush.Transform = transformGroup;
+            }
+        }
+
         public Rectangle GetRectangle()
         {
             return enemy;
         }
 
-
-        public void Move(object sender, EventArgs e)
+        public void Die(int currentLevel, HashSet<int> killedEnemies)
         {
-            if (enemy == null || path.Count == 0)
-                return; // Ha az enemy meghalt, ne mozogjon tovább
-
-            double targetX = path[currentIndex].Item1;
-            double currentX = Canvas.GetLeft(enemy);
-
-            if (Math.Abs(currentX - targetX) < speed)
-            {
-                currentIndex += direction;
-                if (currentIndex >= path.Count || currentIndex < 0)
-                {
-                    direction *= -1;
-                    currentIndex += direction;
-                }
-            }
-            else
-            {
-                Canvas.SetLeft(enemy, currentX + (direction * speed));
-            }
+            killedEnemies.Add(currentLevel); // Elmentjük, hogy ezen a pályán meghalt az ellenség
+            canvas.Children.Remove(enemy);
+            enemy = null;
         }
 
     }
