@@ -168,6 +168,7 @@ namespace AlienBlast
             canvas.Children.Remove(player);
         }
 
+
         private void MoveLeft()
         {
             var collision = CollisionCheck("L");
