@@ -441,7 +441,7 @@ namespace AlienBlast
         {
         
             var playerRect = new Rect(X, Y, W, H);
-            List<Image> spikesToRemove = new List<Image>();
+            List<Image> spikesToRemove = new List<Image>(); //Zalán majd hívj fel azt megoldjuk
 
             foreach (var child in canvas.Children.OfType<Image>())
             {
