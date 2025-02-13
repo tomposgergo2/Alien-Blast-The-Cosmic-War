@@ -30,6 +30,8 @@ namespace AlienBlast
         public int money = 0;
         public List<int> Collected = new List<int>();
         private Enemy enemy;
+        private static bool firstTime = true;
+
 
         public MainWindow()
         {
@@ -82,9 +84,23 @@ namespace AlienBlast
             };
             timer.Start();
 
+
+
             Loaded += (sender, e) =>
             {
                 GenerálPályát();
+                if (firstTime) 
+                {
+                    MessageBox.Show(
+                        "Irányítás:\nW,↑ - Ugrás\nA,← - Balra mozgás\nS,↓ - Lefelé mozgás\nD,→ - Jobbra mozgás\nR - Újrakezdés\nESC - Kilépés\n\n" +
+                        "⚠️ Ha oldalról nekimész az ellenfélnek, meghalsz!\n" +
+                        "🗡️ Az ellenfél fejére kell ugrani, hogy legyőzd!\n" +
+                        "💰 Gyűjts minél több érmét!",
+                        "Irányítás", MessageBoxButton.OK, MessageBoxImage.Information
+                    );
+
+                    firstTime = false; 
+                }
             };
 
             KeyDown += (sender, e) =>
