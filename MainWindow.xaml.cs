@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -30,6 +31,7 @@ namespace AlienBlast
         public int money = 0;
         public List<int> Collected = new List<int>();
         private Enemy enemy;
+        //private Spike spike;
         private static bool firstTime = true;
 
 
@@ -45,21 +47,6 @@ namespace AlienBlast
 
 
 
-            // no meg az hogy miért a másodikat tölti be a pályákból?
-
-            //var négyzet = new System.Windows.Shapes.Rectangle
-            //{
-            //    Width = 96,
-            //    Height = 96,
-            //    Fill = System.Windows.Media.Brushes.Orange,
-            //};
-            //// na majd it a Zalánnal lesz pár mondatom
-
-            //Canvas.SetLeft(négyzet, 100); // ez az x
-            //Canvas.SetTop(négyzet, 100);  // ez az y 
-            //canvas.Children.Add(négyzet);            
-
-
 
             timer.Interval = TimeSpan.FromMilliseconds(15);
             timer.Tick += (sender, e) =>
@@ -72,7 +59,9 @@ namespace AlienBlast
                 player.Gravity();
                 player.MovePlayer();
                 player.CheckForEnemyCollision(new List<Enemy> { enemy }, jelenlegiPályaIndex, killedEnemies);
+                //player.CheckForSpike(new List<Spike> { spike }, jelenlegiPályaIndex);
                 EllenőrizPortált();
+                player.CheckForSpikes();
 
                 Collected = player.CheckForCoinCollection();
 
@@ -167,6 +156,7 @@ namespace AlienBlast
             {
                 List<(double, double)> enemyPath = pálya.GetEnemyPath(jelenlegiPályaIndex);
                 enemy = new Enemy(canvas, enemyPath);
+                
             }
         }
 

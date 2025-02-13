@@ -435,6 +435,32 @@ namespace AlienBlast
 
             return Collected;
         }
+
+        public void CheckForSpikes()
+        {
+        
+            var playerRect = new Rect(X, Y, W, H);
+            List<Image> spikesToRemove = new List<Image>();
+
+            foreach (var child in canvas.Children.OfType<Image>())
+            {
+                if (child.Tag.ToString() == "6" || child.Tag.ToString() == "7") 
+                {
+                    var spikeLeft = Canvas.GetLeft(child);
+                    var spikeTop = Canvas.GetTop(child);
+                    var spikeRect = new Rect(spikeLeft, spikeTop, child.Width, child.Height);
+
+                    if (spikeRect.IntersectsWith(playerRect))
+                    {
+                        Kill();
+                       
+                    }
+                }
+            }
+
+        }
+
+
         public System.Windows.Shapes.Rectangle GetRectangle()
         {
             return player;
@@ -486,6 +512,46 @@ namespace AlienBlast
                 }
             }
         }
+
+        //public void CheckForSpike(List<Spike> spikes, int currentLevel)
+        //{
+        //    if (isRespawning) return;
+
+        //    foreach (var spike in spikes)
+        //    {
+        //        System.Windows.Shapes.Rectangle spikeRect = spike.GetRectangle();
+
+        //        if (spikeRect == null)
+        //        {
+        //            continue;
+        //        }
+
+        //        double spikeX = Canvas.GetLeft(spikeRect);
+        //        double spikeY = Canvas.GetTop(spikeRect);
+        //        double spikeW = spikeRect.Width;
+        //        double spikeH = spikeRect.Height;
+
+        //        Rect playerRect = new Rect(X, Y, W, H);
+        //        Rect spikeBounds = new Rect(spikeX, spikeY, spikeW, spikeH);
+
+        //        if (playerRect.IntersectsWith(spikeBounds))
+        //        {
+        //            isRespawning = true;
+        //            Kill(); 
+
+                    
+        //            X = X * 96;
+        //            Y = Y * 96;
+        //            Application.Current.Dispatcher.Invoke(() =>
+        //            {
+                        
+        //                Player newPlayer = new Player(X, Y, Collected, canvas);
+        //            });
+
+        //            break;
+        //        }
+        //    }
+        //}
 
 
 

@@ -100,7 +100,7 @@ namespace AlienBlast
                             Height = 96,
                             Source = new BitmapImage(new Uri("randomrobbanás.png", UriKind.Relative)),
                             Tag = '7',
-                            Name = "tüske2"
+                            Name = "robbanás"
                         };
                         Canvas.SetLeft(tüske2, x * 96);
                         Canvas.SetTop(tüske2, y * 96);
