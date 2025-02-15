@@ -439,13 +439,12 @@ namespace AlienBlast
 
         public void CheckForSpikes()
         {
-        
             var playerRect = new Rect(X, Y, W, H);
-            List<Image> spikesToRemove = new List<Image>(); //Zalán majd hívj fel azt megoldjuk
+            List<Image> collidingSpikes = new List<Image>();
 
             foreach (var child in canvas.Children.OfType<Image>())
             {
-                if (child.Tag.ToString() == "6" || child.Tag.ToString() == "7") 
+                if (child.Tag.ToString() == "6" || child.Tag.ToString() == "7")
                 {
                     var spikeLeft = Canvas.GetLeft(child);
                     var spikeTop = Canvas.GetTop(child);
@@ -453,13 +452,27 @@ namespace AlienBlast
 
                     if (spikeRect.IntersectsWith(playerRect))
                     {
-                        Kill();
-                       
+                        collidingSpikes.Add(child);
                     }
                 }
             }
 
+            
+            foreach (var spike in collidingSpikes)
+            {
+                isRespawning = true;
+                
+                Kill(); 
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Kill();
+                    X = X * 96;
+                    Y = Y * 96;
+                    Player player = new Player(X, Y, Collected, canvas);
+                });
+            }
         }
+
 
 
         public System.Windows.Shapes.Rectangle GetRectangle()
