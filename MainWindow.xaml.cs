@@ -152,12 +152,18 @@ namespace AlienBlast
             {
                 enemy = null; // Ha már megölték, ne hozzunk létre újat
             }
+            else if (jelenlegiPályaIndex + 1 >= pálya.Pályák.Count)
+            {
+                List<(double, double)> enemyPath = pálya.GetEnemyPath(jelenlegiPályaIndex);
+                enemy = new Enemy(canvas, enemyPath, 288, 288);
+            }
             else
             {
                 List<(double, double)> enemyPath = pálya.GetEnemyPath(jelenlegiPályaIndex);
                 enemy = new Enemy(canvas, enemyPath);
                 
             }
+
         }
 
 
