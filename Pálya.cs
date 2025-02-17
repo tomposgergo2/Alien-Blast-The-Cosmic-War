@@ -107,21 +107,6 @@ namespace AlienBlast
                         canvas.Children.Add(tüske2);
 
                     }
-                    if (pályaSor[y][x] == '9')
-                    {
-                        var boss = new Image()
-                        {
-                            Width = 576,
-                            Height = 576,
-                            Source = new BitmapImage(new Uri("tüske2.png", UriKind.Relative)),
-                            Tag = '9',
-                            Name = "Boss"
-                        };
-                        Canvas.SetLeft(boss, x * 576);
-                        Canvas.SetTop(boss, y * 576);
-                        canvas.Children.Add(boss);
-
-                    }
                     if (pályaSor[y][x] == '5')
                     {
                         var enemyZone = new Image

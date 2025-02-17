@@ -17,7 +17,7 @@ namespace AlienBlast
         private double Speed = 3;
         private bool MovingRight = true; // Jobbra indul alapból
 
-        public Enemy(Canvas canvas, List<(double, double)> path)
+        public Enemy(Canvas canvas, List<(double, double)> path, double w = 96, double h = 96)
         {
             this.canvas = canvas;
 
@@ -31,8 +31,8 @@ namespace AlienBlast
 
             enemy = new Rectangle
             {
-                Width = 96,
-                Height = 96,
+                Width = w,
+                Height = h,
                 Fill = new ImageBrush
                 {
                     ImageSource = new BitmapImage(new Uri("Enemy.png", UriKind.Relative))
