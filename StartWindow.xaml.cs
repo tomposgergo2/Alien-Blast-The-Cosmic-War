@@ -23,6 +23,7 @@ namespace AlienBlast
         public bool HasSave;
         public int Level = -1;
         public List<int> Collected = new List<int>();
+        public int Deaths;
         public StartWindow()
         {
             InitializeComponent();
@@ -48,9 +49,10 @@ namespace AlienBlast
 
         private void KezdesGomb_Click(object sender, RoutedEventArgs e)
         {
-            SaveData(0, []);
+            SaveData(0, [], 0);
             MainWindow játékAblak = new MainWindow();
             játékAblak.Collected = new List<int>();
+            játékAblak.Deaths = 0;
             játékAblak.Show(); 
             this.Close(); 
         }
@@ -60,12 +62,13 @@ namespace AlienBlast
             MainWindow játékAblak = new MainWindow();
             játékAblak.jelenlegiPályaIndex = Level;
             játékAblak.Collected = Collected;
+            játékAblak.Deaths = Deaths;
             játékAblak.Show();
             this.Close();
         }
         private void Kilepes_Click(object sender, RoutedEventArgs e)
         {
-            SaveData(Level, Collected);
+            SaveData(Level, Collected, Deaths);
             this.Close();
         }
 
@@ -79,13 +82,14 @@ namespace AlienBlast
             var datas = rows.Skip(1).First().Trim().Split(";");
             Level = int.Parse(datas[0]);
             Collected = datas[1].ToList().Select(i => i - '0').ToList();
+            Deaths = int.Parse(datas[2]);
             return true;
         }
-        private void SaveData(int Level, List<int>Collected)
+        private void SaveData(int Level, List<int>Collected, int Deaths)
         {
             if (HasSave || Level >= 0)
             {
-                File.WriteAllLines("Save.txt", ["level;money;collected", $"{Level};{string.Join("", Collected.ToArray())}"]);
+                File.WriteAllLines("Save.txt", ["level;collected;deaths", $"{Level};{string.Join("", Collected.ToArray())};{Deaths}"]);
             }
         }
     }

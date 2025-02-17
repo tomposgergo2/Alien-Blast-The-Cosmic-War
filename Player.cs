@@ -437,7 +437,7 @@ namespace AlienBlast
             return Collected;
         }
 
-        public void CheckForSpikes()
+        public bool CheckForSpikes()
         {
             var playerRect = new Rect(X, Y, W, H);
             List<Image> collidingSpikes = new List<Image>();
@@ -470,7 +470,10 @@ namespace AlienBlast
                     Y = Y * 96;
                     Player player = new Player(X, Y, Collected, canvas);
                 });
+                return true;
             }
+
+            return false;
         }
 
 
@@ -482,9 +485,9 @@ namespace AlienBlast
         private bool isRespawning = false;
 
 
-        public void CheckForEnemyCollision(List<Enemy> enemies, int currentLevel, HashSet<int> killedEnemies)
+        public bool CheckForEnemyCollision(List<Enemy> enemies, int currentLevel, HashSet<int> killedEnemies)
         {
-            if (isRespawning) return;
+            if (isRespawning) return false;
 
             foreach (var enemy in enemies)
             {
@@ -521,10 +524,12 @@ namespace AlienBlast
                                 Y = Y * 96;
                                 Player player = new Player(X, Y, Collected, canvas);
                             });
+                        return true;
                     }
                     break;
                 }
             }
+            return false;
         }
 
         //public void CheckForSpike(List<Spike> spikes, int currentLevel)

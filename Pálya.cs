@@ -121,6 +121,21 @@ namespace AlienBlast
                         Canvas.SetTop(enemyZone, y * 96);
                         canvas.Children.Add(enemyZone);
                     }
+                    //if (pályaSor[y][x] == '9')
+                    //{
+                    //    var reactor = new Image()
+                    //    {
+                    //        Width = 576,
+                    //        Height = 576,
+                    //        Source = new BitmapImage(new Uri("reactor.png", UriKind.Relative)),
+                    //        Tag = '9',
+                    //        Name = "Reactor"
+                    //    };
+                    //    Canvas.SetLeft(reactor, x * 96);
+                    //    Canvas.SetTop(reactor, y * 96);
+                    //    canvas.Children.Add(reactor);
+
+                    //}
                 }
             }
             if (portal3Positions.Count > 0)

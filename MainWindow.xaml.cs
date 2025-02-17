@@ -30,6 +30,12 @@ namespace AlienBlast
         public int jelenlegiPályaIndex = 0;
         public int money = 0;
         public List<int> Collected = new List<int>();
+        private int deaths = 0;
+        public int Deaths
+        {
+            get => deaths;
+            set => deaths = value;
+        }
         private Enemy enemy;
         //private Spike spike;
         private static bool firstTime = true;
@@ -58,10 +64,12 @@ namespace AlienBlast
                 player.MoveUp();
                 player.Gravity();
                 player.MovePlayer();
-                player.CheckForEnemyCollision(new List<Enemy> { enemy }, jelenlegiPályaIndex, killedEnemies);
+                if (player.CheckForEnemyCollision(new List<Enemy> { enemy }, jelenlegiPályaIndex, killedEnemies))
+                    Deaths += 1;
                 //player.CheckForSpike(new List<Spike> { spike }, jelenlegiPályaIndex);
                 EllenőrizPortált();
-                player.CheckForSpikes();
+                if(player.CheckForSpikes()) 
+                    Deaths += 1;
 
                 Collected = player.CheckForCoinCollection();
 
@@ -99,6 +107,7 @@ namespace AlienBlast
                     StartWindow menu = new StartWindow();
                     menu.Level = jelenlegiPályaIndex;
                     menu.Collected = player.Collected;
+                    menu.Deaths = Deaths;
                     menu.Show();
                     this.Close();
                 }
@@ -152,15 +161,15 @@ namespace AlienBlast
             {
                 enemy = null; // Ha már megölték, ne hozzunk létre újat
             }
-            else if (jelenlegiPályaIndex + 1 >= pálya.Pályák.Count)
-            {
-                List<(double, double)> enemyPath = pálya.GetEnemyPath(jelenlegiPályaIndex);
-                enemy = new Enemy(canvas, enemyPath, 288, 288);
-            }
             else
             {
                 List<(double, double)> enemyPath = pálya.GetEnemyPath(jelenlegiPályaIndex);
                 enemy = new Enemy(canvas, enemyPath);
+                
+            }
+            
+            if (jelenlegiPályaIndex + 1 >= pálya.Pályák.Count)
+            {
                 
             }
 
@@ -184,6 +193,20 @@ namespace AlienBlast
                     jelenlegiPályaIndex++;
                     GenerálPályát();
                     TeleportToSpawn(); // A 4-es helyére rakjuk a játékost
+                }
+                else if (jelenlegiPályaIndex + 1 == pálya.Pályák.Count)
+                {
+                    player.Kill();
+                    jelenlegiPályaIndex = 0;
+                    MessageBox.Show($"Pontszám: {
+                        Math.Round( 1000 * (double)Collected.Sum() / pálya.Pályák.Count ) - Deaths
+                        }", "GYŐZELEM!" , MessageBoxButton.OK, MessageBoxImage.Information);
+                    StartWindow menu = new StartWindow();
+                    menu.Level = 0;
+                    menu.Collected = [];
+                    menu.Deaths = 0;
+                    menu.Show();
+                    this.Close();
                 }
             }
         }
@@ -222,6 +245,7 @@ namespace AlienBlast
             if (player.Y > 1080)
             {
                 player.Kill();
+                Deaths += 1;   
                 player = new Player(playerX, playerY, Collected, canvas);
             }
         }
