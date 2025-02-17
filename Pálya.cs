@@ -111,14 +111,14 @@ namespace AlienBlast
                     {
                         var boss = new Image()
                         {
-                            Width = 588,
-                            Height = 588,
+                            Width = 576,
+                            Height = 576,
                             Source = new BitmapImage(new Uri("tüske2.png", UriKind.Relative)),
                             Tag = '9',
                             Name = "Boss"
                         };
-                        Canvas.SetLeft(boss, x * 96);
-                        Canvas.SetTop(boss, y * 96);
+                        Canvas.SetLeft(boss, x * 576);
+                        Canvas.SetTop(boss, y * 576);
                         canvas.Children.Add(boss);
 
                     }
